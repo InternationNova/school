@@ -1,0 +1,337 @@
+﻿@model school.Classes.reportPrimas
+@{
+    ViewBag.Title = "Index";
+}
+@{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Relatórios ref. ao consumo das matérias primas</h2>
+<style>
+
+    tr{border:none; !important;}
+</style>
+<script type="text/ecmascript">
+    $(document).ready(function () {
+        $("#codigoSmk").hide();
+        $("#codigoOpe").hide();
+        $("#div_individual").hide();
+
+        $('input[id=geral]').on("click", function () {
+            if ($('input[id=geral]').is(':checked')) {
+                esconderTudo();
+                $('input[id=produtos]').attr('checked', false);
+                $('input[id=ope]').attr('checked', false);
+                $('input[id=individual]').attr('checked', false);
+            }
+        });
+
+        $('input[id=produtos]').on("click", function () {
+            $('input[id=geral]').attr('checked', false);
+            $('input[id=individual]').attr('checked', false);
+            mostrarProdutos();
+            $("#div_individual").hide();
+        });
+
+        $('input[id=ope]').on("click", function () {
+            $('input[id=geral]').attr('checked', false);
+            $('input[id=individual]').attr('checked', false);
+            mostrarOpe();
+            $("#div_individual").hide();
+        });
+
+        $('input[id=individual]').on("click", function () {
+            $('input[id=geral]').attr('checked', false);
+            $('input[id=produtos]').attr('checked', false);
+            $('input[id=ope]').attr('checked', false);
+            if ($('input[id=individual]').is(':checked')) {
+                mostrarIndividual();
+                $("#codigoSmk").hide();
+                $("#codigoOpe").hide();
+            }
+        });
+    });
+
+    function esconderTudo() {
+        $("#codigoSmk").hide();
+        $("#codigoOpe").hide();
+        $("#div_individual").hide();
+    }
+
+    function mostrarProdutos() {
+        $("#codigoSmk").show();
+    }
+
+    function mostrarOpe() {
+        $("#codigoOpe").show();
+    }
+
+    function mostrarIndividual() {
+        $("#div_individual").show();
+    }
+
+    function buscaItem(x, y) {
+        var conc = '#produto' + y;
+        $.ajax(
+		  {
+		      method: "get",
+		      url: "view/relatorios/materia_prima/buscaItem.php",
+		      data: "cod_smk=" + x + "&op=item_smk",
+		      beforeSend: function () {
+		          $(conc).val("Pesquisando...");
+		      },
+		      success: function (conteudo) {
+		          if (conteudo == 0) {
+		              alert("Não foi encontrado ítem com este código.");
+		              $('#codigo_smk').val("");
+		              $('#codigo_smk').focus();
+		              $(conc).val("Digite um código válido.");
+		          } else {
+		              $(conc).val(conteudo);
+		          }
+		      }
+		  }
+		);
+    };
+
+    function buscaItemIndividual(x, y) {
+        var conc = '#produto_individual' + y;
+        $.ajax(
+		  {
+		      method: "get",
+		      url: "view/relatorios/materia_prima/buscaItem.php",
+		      data: "cod_smk=" + x + "&op=item_smk",
+		      beforeSend: function () {
+		          $(conc).val("Pesquisando...");
+		      },
+		      success: function (conteudo) {
+		          if (conteudo == 0) {
+		              alert("Não foi encontrado ítem com este código.");
+		              $('#codigo_smk').val("");
+		              $('#codigo_smk').focus();
+		              $(conc).val("Digite um código válido.");
+		          } else {
+		              $(conc).val(conteudo);
+		          }
+		      }
+		  }
+		);
+    };
+
+    function buscaOpe(x) {
+
+        $.ajax(
+		  {
+		      method: "get",
+		      url: "view/relatorios/materia_prima/buscaItem.php",
+		      data: "opes_id=" + x + "&op=item_ope",
+		      beforeSend: function () {
+		          $("#descricao_ope").html("Pesquisando...");
+		      },
+		      success: function (conteudo) {
+		          if (conteudo == 0) {
+		              alert("Não foi encontrado esta OPE.");
+		              $('#ope_id').val("");
+		              $('#ope_id').focus();
+		              $('#descricao_ope').text("Digite um código válido acima.");
+		          } else {
+		              $("#descricao_ope").html(conteudo);
+		          }
+		      }
+		  }
+		);
+    };
+
+    function addProduto(x) {
+        var input = '#codigo_smk' + x;
+        x++;
+        $(input).parent().append
+        (
+            '<label for="codigo_smk"><a href="javascript:addProduto(' + x + ');" title="Adicionar outro produto."><i class="icon-plus-sign"></i></a><input type="input" name="codigo_smk[]" id="codigo_smk' + x + '" value="" onchange="buscaItem(this.value,' + x + ');" class="input-small"><input type="input" name="produto[]" id="produto' + x + '" value="" class="input-xxlarge" readonly="readonly"></label>'
+        );
+    }
+
+    function addProdutoIndividual(x) {
+        var input = '#codigo_individual' + x;
+        x++;
+        $(input).parent().append
+        (
+            '<label for="codigo_individual"><a href="javascript:addProdutoIndividual(' + x + ');" title="Adicionar outro produto."><i class="icon-plus-sign"></i></a><input type="input" name="codigo_individual[]" id="codigo_individual' + x + '" value="" onchange="buscaItemIndividual(this.value,' + x + ');" class="input-small"><input type="input" name="produto_individual[]" id="produto_individual' + x + '" value="" class="input-xxlarge" readonly="readonly"></label>'
+        );
+    }
+</script>
+
+
+<div class="theme-panel hidden-xs hidden-sm">
+				<div class="toggler">
+				</div>
+				<div class="toggler-close">
+				</div>
+				<div class="theme-options">
+					
+					<div class="theme-option">
+						<span>
+						Layout </span>
+						<select class="layout-option form-control input-small">
+							<option value="fluid" selected="selected">Fluid</option>
+							<option value="boxed">Boxed</option>
+						</select>
+					</div>
+					
+					
+					<div class="theme-option">
+						<span>
+						Sidebar Position </span>
+						<select class="sidebar-pos-option form-control input-small">
+							<option value="left" selected="selected">Left</option>
+							<option value="right">Right</option>
+						</select>
+					</div>
+					<div class="theme-option">
+						<span>
+						Footer </span>
+						<select class="page-footer-option form-control input-small">
+							<option value="fixed">Fixed</option>
+							<option value="default" selected="selected">Default</option>
+						</select>
+					</div>
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+					<h3 class="page-title">
+					Relatoris 
+					</h3>
+					<ul class="page-breadcrumb breadcrumb"> 
+						<li class="btn-group" style = "display : none;">
+							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+							<span>Actions</span><i class="fa fa-angle-down"></i>
+							</button>
+							<ul class="dropdown-menu pull-right" role="menu">
+								<li>
+									<a href="#">Action</a>
+								</li>
+								<li>
+									<a href="#">Another action</a>
+								</li>
+								<li>
+									<a href="#">Something else here</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									<a href="#">Separated link</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<i class="fa fa-home"></i>
+							<a href="">Relatorios</a>
+							<i class="fa fa-angle-right"></i>
+                            <a href="">Mat. Primas</a>
+						</li>
+					
+					</ul>
+					<!-- END PAGE TITLE & BREADCRUMB-->
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN EXAMPLE TABLE PORTLET-->
+					<div class="portlet box grey-cascade">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="fa fa-globe"></i>Materia Primas
+							</div>
+							<div class="tools" style = "display : none;">
+								<a href="javascript:;" class="collapse">
+								</a>
+								<a href="#portlet-config" data-toggle="modal" class="config">
+								</a>
+								<a href="javascript:;" class="reload">
+								</a>
+								<a href="javascript:;" class="remove">
+								</a>
+							</div>
+						</div>
+						<div class="portlet-body">
+							<div class="table-toolbar">
+                                 <div class="btn-group">
+									
+								</div>
+                            </div>
+                                   <form name="form1" method="post" action="/reportPrima/reportPrimaPdf">
+                                        <table id="example" width="100%" border="0" class="table">
+                                            <thead>
+                                              <tr>
+                                                <td width="80px"><div style="margin-top:30px;">Selecione:</div></td>
+                                                <td>
+                                                  <label for="geral">
+                                                    <input name= "selecione" type="checkbox" id="geral" value="geral" checked="checked">
+                                                  Todos os produtos</label>
+                                                  <label for="produtos">
+                                                    <input type="checkbox" name="selecione" id="produtos" value="produtos"/>
+                                                  Produtos/Geral</label>
+                  
+                                                  <label for="ope">
+                                                    <input type="checkbox" name="selecione" id="ope" value="ope" />
+                                                  Escola</label>
+                  
+                                                  <label for="individual"><input type="checkbox" name="selecione]" id="individual" value="individual" onclick="mostrarIndividual();">
+                                                Produtos/Individual</label>
+                                                </td>
+                                              </tr>
+                                             </thead>
+                                            <tbody> 
+                                                  <td nowrap="nowrap" style = "border:none;" colspan="2">
+                                                      <div id="codigoSmk"> Cod. SMK:<br/>                 
+                                                        <label for="codigo_smk">
+                                                            <a href="javascript:addProduto(0);" title="Adicionar outra pessoa."><i class="icon-plus-sign"></i></a><input type="input" name="codigo_smk" id="codigo_smk0" value="" onchange="buscaItem(this.value,0);" class="input-small">
+                                                            <input type="input" name="produto" id="produto0" value="" class="input-xxlarge" readonly="readonly">
+                                                        </label>
+                        
+                                                      </div>
+                      
+                                                      <div id="codigoOpe">
+                                                          <label for="escolas_id"></label>
+                                                            Escola: 
+                                                            
+                                                            <div class="editor-field">
+                                                                      <select id="producaoList" name = "escolas_id"   style ="width:300px;">
+                                                                            @foreach (var item in Model.escolas)
+                                                                                   {
+
+                                                                                           <option value="@item.id">
+                                                                                              @item.nome 
+                                                                                           </option>                  
+                                                                                   }
+                               
+                                                                    </select>
+                                                            </div>
+                                                      </div>
+                      
+                                                      <div id="div_individual">
+                                                          <label for="codigo_individual">
+                                                            Cod. SMK:<br/> <input type="input" name="codigo_individual" id="codigo_individual0" value="" onchange="buscaItemIndividual(this.value,0);" class="input-small">
+                                                            <input type="input" name="produto_individual" id="produto_individual0" value="" class="input-xxlarge" readonly="readonly">
+                                                          </label>
+                                                      </div>
+                                                  </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                              <td></td>
+                                              <td><input type="submit" name="button" id="button" value="Consultar" class="btn"></td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </form>
+                                </div> 
+                            </div>
+                        </div>
+<script type = "text/javascript" >
+        
+
+</script>

@@ -1,0 +1,45 @@
+﻿@model school.Models.ope
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>ope</legend>
+
+    <div class="display-label">numero_processo</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.numero_processo)
+    </div>
+
+    <div class="display-label">numero_projeto</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.numero_projeto)
+    </div>
+
+    <div class="display-label">data_abertura</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.data_abertura)
+    </div>
+
+    <div class="display-label">data_chegada</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.data_chegada)
+    </div>
+
+    <div class="display-label">escolas_id</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.escolas_id)
+    </div>
+
+    <div class="display-label">observacao</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.observacao)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Salvar", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Voltar", "Index")
+</p>

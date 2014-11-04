@@ -1,0 +1,20 @@
+﻿@model school.Models.tipo_documentos
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>tipo_documentos</legend>
+
+    <div class="display-label">descricao</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.descricao)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

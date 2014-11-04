@@ -1,0 +1,78 @@
+﻿@model school.Models.sub_produtos
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>sub_produtos</legend>
+
+    <div class="display-label">descricao</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.descricao)
+    </div>
+
+    <div class="display-label">comprimento_acabada</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.comprimento_acabada)
+    </div>
+
+    <div class="display-label">largura_acabada</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.largura_acabada)
+    </div>
+
+    <div class="display-label">espessura_acabada</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.espessura_acabada)
+    </div>
+
+    <div class="display-label">comprimento_bruto</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.comprimento_bruto)
+    </div>
+
+    <div class="display-label">largura_bruto</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.largura_bruto)
+    </div>
+
+    <div class="display-label">espessura_bruto</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.espessura_bruto)
+    </div>
+
+    <div class="display-label">quantidade</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.quantidade)
+    </div>
+
+    <div class="display-label">area</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.area)
+    </div>
+
+    <div class="display-label">perda</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.perda)
+    </div>
+
+    <div class="display-label">smk_itens_id</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.smk_itens_id)
+    </div>
+
+    <div class="display-label">categoria_sub_produtos_id</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.categoria_sub_produtos_id)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

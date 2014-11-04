@@ -1,0 +1,8 @@
+﻿@model IEnumerable<school.Models.escolas>
+
+@foreach (var item in Model)
+{
+    <option value="@item.id">
+                @item.nome 
+     </option> 
+}

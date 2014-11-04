@@ -1,0 +1,75 @@
+ button#sample_editable_1_new a {
+        color: #ffffff !important;
+ }
+p.buttonParam {
+    margin-top: 10px;
+    display:inline-block;
+}
+i.icon-plus-sign {
+    width: 14px;
+    height: 14px;
+    background-image: url("../Content/img/glyphicons-halflings.png");
+    background-position: 0 -96px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+.editor-label select {
+    width: 162px;
+}
+.editor-field input {
+    width: 300px;
+}
+.editor-label select {
+    width: 300px;
+}
+button#sample_editable_1_new a {
+    text-decoration: none;
+}
+input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
+    cursor: not-allowed;
+    background-color: #eee;
+}
+.input-mini {
+    width: 45px !important;
+    border-radius: 5px !important;
+    text-align: center;
+}
+.icon-circle-arrow-right {
+    background-position: -240px -144px !important;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url("img/glyphicons-halflings.png");
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+}
+.btn {
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #f5f5f5;
+}
+.icon-remove {
+    background-position: -312px 0;
+    background-image: url(/Content/img/glyphicons-halflings.png);
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    line-height: 14px;
+    vertical-align: text-top;
+}

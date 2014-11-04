@@ -1,0 +1,43 @@
+﻿@model school.Classes.reportPrimaPdf
+           
+<table id="example" width="1024" border="0" class="table">
+            <thead>
+              <tr>
+                <th colspan="4"><h2>@Model.titulo</h2>
+                <br />@Model.titulo</th>
+              </tr>
+              <tr>
+                <th>Matéria Prima</th>
+                <th width="80">Unidade</th>
+                <th width="80">Quantidade</th>
+              </tr>
+             </thead>
+            <tbody>
+           		
+                
+                     @foreach (var item in Model.reportPrimaFirst)
+                     { 
+                         <tr>
+                        
+                            <td>@item.codigo_smk</td>
+                            <td>@item.unidade</td>
+                            <td>@item.mdf</td>
+                        </tr>
+                     }
+                     @foreach (var item in Model.reportPrimaSecond)
+                     { 
+                         <tr>
+                            <td>@item.codigo_smk</td>
+                            <td>@item.unidade</td>
+                            <td>@item.mdf</td>
+                        </tr>
+                     
+                     }
+                
+              
+            </tbody>
+            <tfoot>
+            	<tr>
+                	<td colspan="3"><div align="right">Rel. gerado em: @DateTime.Now.ToString();</div></td>
+                </tr>
+        </table>

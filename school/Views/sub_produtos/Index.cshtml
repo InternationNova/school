@@ -1,0 +1,99 @@
+﻿@model IEnumerable<school.Models.sub_produtos>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            descricao
+        </th>
+        <th>
+            comprimento_acabada
+        </th>
+        <th>
+            largura_acabada
+        </th>
+        <th>
+            espessura_acabada
+        </th>
+        <th>
+            comprimento_bruto
+        </th>
+        <th>
+            largura_bruto
+        </th>
+        <th>
+            espessura_bruto
+        </th>
+        <th>
+            quantidade
+        </th>
+        <th>
+            area
+        </th>
+        <th>
+            perda
+        </th>
+        <th>
+            smk_itens_id
+        </th>
+        <th>
+            categoria_sub_produtos_id
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.descricao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.comprimento_acabada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.largura_acabada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.espessura_acabada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.comprimento_bruto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.largura_bruto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.espessura_bruto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.quantidade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.area)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.perda)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.smk_itens_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.categoria_sub_produtos_id)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

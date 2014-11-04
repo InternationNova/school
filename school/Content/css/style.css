@@ -1,0 +1,94 @@
+@CHARSET "EUC-KR";
+a#SiteTitleMain {text-decoration: none;font-size: 30px;color: white;}
+.top-menu {display: none;}
+.theme-panel.hidden-xs.hidden-sm {display: none;}
+ul.page-breadcrumb.breadcrumb {display: none;}
+div#sortable_portlets {width: 98%;margin: auto;}
+.column_itme {width: 90%;margin: auto;}
+.page-logo a {font-size: 30px;color: #ffffff;}
+li#crumbLi {margin-left: 10px;}
+#profileDivLeft{display:none;}
+#profilePicture{margin-top:10px;}
+li#saveYourSnaps{display:none;}
+li#crumbLi {margin-left: 10px;cursor: pointer;}
+div#sample_1_filter {text-align: right;}
+#content {width: 80%;min-height: 600px;box-shadow: 0px 0px 7px rgba(0,0,0,0.5);margin: 50px auto;background: white;}
+.page-header-fixed .page-container {margin-top: 46px;z-index: 50;}
+#socialWidget {height:300px;background-color: #fff;padding: 10px;overflow-y: scroll;overflow-x: hidden;}
+div#wrapper-content {width: 100%;}
+li.odd {width: 100%;padding-right:0px;}
+li.even {
+width: 100%;padding-left:0px;
+}
+.feed-timeline .entry strong.name{padding-right:0px;margin-right:0px;}
+.feed-timeline-vertical li.odd .entry{margin-right:0px;}
+.portlet{cursor:pointer;}
+.blueSelect{color:blue;}
+div#rect {width: 200px;height: 150px;float: left;}
+div.firstInnerColumn {width: 40px;height: 100%;background-color: #9c9c9c;}
+div.secondInnerColumn {width: 155px;height: 100%;background-color: #9c9c9c;}
+div.spaceColumn{width:5px;height:100%;}
+.floatleft{float:left;}
+#widgetContent{width: 80%;margin: auto;margin-top: 5%;}
+p.headTitle {font-size: 16px;}
+div#firstColumn {width: 50%;float:left;}
+.layoutTitle{width:70%;margin:auto;}
+div#firstRow {margin-top: 50px;width:100%;display:inline-block;}
+div#allowDiv {width: 80%;margin: auto;margin-top: 60px;}
+div.dashletDiv {width: 80%;height: 60px;background: #F8F8F8;border: 1px dashed;border-color: #9c9c9c;float: left;margin-right: 3%;margin-top:20px;
+text-align: center;padding-top: 20px;}
+#buttonDiv{width: 20%;text-align: center;float: left;height: 100%;}
+p.dashboarTitle {width: 80%;margin: auto;}
+div#dashletBoard {width: 80%;margin: auto;margin-top: 30px;}
+div#firstRowDiv {margin-top: 20px;display: inline-block;padding-bottom: 20px;width: 100%;}
+div#columnDiv {width: 80%;margin: auto;}
+div#column1Div {width: 35%;display:inline-block;vertical-align: top;}
+div#column2Div {width: 35%;display:inline-block;margin-left:30px;vertical-align: top;}
+div#buttonContainer {width: 30%;margin: auto;margin-bottom: 50px;padding-top: 30px;}
+.columnContainer {height: 250PX;border: 1PX solid #E3E3E3;}
+div#trashDiv {width: 20%;display:inline-block;margin-left: 20px;}
+#dashletItems{height:200px;}
+#floatright{float:right;}
+img#trashIcon {margin-top: 50%;margin-left: 40%;}
+a#okButton {padding: 5px 15px;border: solid 1px #9F9F9F;text-decoration: none;cursor:pointer;}
+a#cancelButton {padding: 5px 15px;border: solid 1px #9F9F9F;text-decoration: none;cursor:pointer;}
+.layerInnerDiv {display: inline-block;width: 100%;padding: 5% 5%;background: #ececec;}
+button#layerButton {margin-top: 50%;margin-left:5%;}
+.grey{background:#9c9c9c;}
+.inlineBlock{float:left;}
+#layoutStyle{width: 90%;margin: auto;background: #ffffff;}
+.column.sortable.ui-sortable {min-height: 500px;}
+div#columnInnerDiv {width: 20%;float: left;padding: 0px 10px;}
+
+  .pagination li{ float:left; }
+    .pagination li a{text-decoration:none;}
+    .pagination li a:hover{text-decoration:none;}
+    .pagination{ margin-bottom: 5px !important; }
+    .pagination ul{ list-style-type : none !important;}
+    #example_wrapper .row{ margin-left: 0px; margin-right: 0px; margin-top: 5px; margin-bottom:5px}
+    #example_filter input{ height: 32px; padding: 3px; }
+    #example_length select{ height: 32px; padding: 3px; }
+
+    div.dataTables_length label {
+    float: left;
+    text-align: left;
+    }
+    div.dataTables_filter label {
+      float: right;
+    }
+    div.dataTables_paginate {
+     float: right;
+     margin: 0;
+    }
+    button a {
+        text-decoration: none !important;
+    }
+    button#sample_editable_1_new a {
+        color: #ffffff;
+    }
+    button#sample_editable_1_new a {
+        color: #ffffff !important;
+    }
+    .icon-circle-arrow-right{
+        background-position: -240px -144px;
+    }

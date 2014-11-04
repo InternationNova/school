@@ -1,0 +1,8 @@
+D:\git\school\school\bin\school.dll
+D:\git\school\school\bin\school.pdb
+D:\git\school\school\bin\EntityFramework.dll
+D:\git\school\school\bin\itextsharp.dll
+D:\git\school\school\bin\EntityFramework.xml
+D:\git\school\school\obj\Debug\school.dll
+D:\git\school\school\obj\Debug\school.pdb
+D:\git\school\school\obj\Debug\school.csprojResolveAssemblyReference.cache

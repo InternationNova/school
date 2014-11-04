@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+td {
+    border: none !important;
+}
+</style>
+
+<script type="text/ecmascript">
+
+    function consultaMemo(x, y) {
+        var conc = '#descricao_produto' + y;
+        $.ajax
+		({
+		    method: "get",
+		    url: window.location.pathname + "/Home/login",
+		    data: "memo=" + x + "&op=busca_memo",
+		    beforeSend: function () {
+		        $("#descricao_item").html("Pesquisando...");
+		    },
+		    success: function (conteudo) {
+		        if (conteudo == 0) {
+		            alert('Conta memo não existente');
+		            $(conc).val("Digite um código válido.");
+		        }
+		        else {
+		            $(conc).val(conteudo);
+		        }
+		    }
+		})
+    }
+
+
+    function addMemo(x) {
+        var input = '#memo' + x;
+        x++;
+        $(input).parent().append
+        (
+            '<label for="memo' + x + '"><a href="javascript:addMemo(' + x + ');" title="Adicionar outro memo."><i class="icon-plus-sign"></i></a><input type="input" name="memo" id="memo' + x + '" value="" class="input-small"></label>'
+        );
+    }
+</script>
+<div class="theme-panel hidden-xs hidden-sm">
+				<div class="toggler">
+				</div>
+				<div class="toggler-close">
+				</div>
+				<div class="theme-options">
+					
+					<div class="theme-option">
+						<span>
+						Layout </span>
+						<select class="layout-option form-control input-small">
+							<option value="fluid" selected="selected">Fluid</option>
+							<option value="boxed">Boxed</option>
+						</select>
+					</div>
+					
+					
+					<div class="theme-option">
+						<span>
+						Sidebar Position </span>
+						<select class="sidebar-pos-option form-control input-small">
+							<option value="left" selected="selected">Left</option>
+							<option value="right">Right</option>
+						</select>
+					</div>
+					<div class="theme-option">
+						<span>
+						Footer </span>
+						<select class="page-footer-option form-control input-small">
+							<option value="fixed">Fixed</option>
+							<option value="default" selected="selected">Default</option>
+						</select>
+					</div>
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+					<h3 class="page-title">
+					Relatorios ref. a produtos
+					</h3>
+					<ul class="page-breadcrumb breadcrumb"> 
+						<li class="btn-group" style = "display : none;">
+							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+							<span>Actions</span><i class="fa fa-angle-down"></i>
+							</button>
+							<ul class="dropdown-menu pull-right" role="menu">
+								<li>
+									<a href="#">Action</a>
+								</li>
+								<li>
+									<a href="#">Another action</a>
+								</li>
+								<li>
+									<a href="#">Something else here</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									<a href="#">Separated link</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<i class="fa fa-home"></i>
+							<a href="">Relatorios</a>
+							<i class="fa fa-angle-right"></i>
+                            <a href="">Compras</a>
+						</li>
+					
+					</ul>
+					<!-- END PAGE TITLE & BREADCRUMB-->
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN EXAMPLE TABLE PORTLET-->
+				        <div class="portlet box grey-cascade">
+						        <div class="portlet-title">
+							        <div class="caption">
+								        <i class="fa fa-globe"></i>Relatorios ref. a produtos
+							        </div>
+							        <div class="tools" style = "display:none;">
+								        <a href="javascript:;" class="collapse">
+								        </a>
+								        <a href="#portlet-config" data-toggle="modal" class="config">
+								        </a>
+								        <a href="javascript:;" class="reload">
+								        </a>
+								        <a href="javascript:;" class="remove">
+								        </a>
+							        </div>
+						        </div>
+						        <div class="portlet-body">
+							       <div class="table-toolbar" style = "display: inline-block;">
+                                        
+                                            <form name="form1" method="post" action="@(Request.ApplicationPath + "/reportCompras/reportComprasPdf")" target="_blank">
+                                            <table id="example" width="100%" border="0" class="table">
+                                                <tbody>
+                                                <tr>
+                                                  <td width="85" nowrap="nowrap">MEMO:  
+                                                  </td>
+                                                  <td width="942" nowrap="nowrap">
+                                                                <a href="javascript:addMemo(0);" title="Adicionar outro produto."><i class="icon-plus-sign"></i></a>
+                                                                <input type="input" name="memo" id="memo0" value="" class="input-small" onblur="consultaMemo(this.value,0)">
+                                                                <input type="input" name="descricao_produto[]" id="descricao_produto0" value="" class="input-xxlarge" readonly="readonly">
+                                                  </td>
+                                                  </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                      <td></td>
+                                                      <td><input type="submit" name="button" id="button" value="Consultar" class="btn"></td>
+                                                    </tr>
+                                                    </tfoot>
+                                            </table>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                

@@ -1,0 +1,183 @@
+﻿   @model school.Classes.reportOpes
+ 
+   @{ 
+         ViewBag.Title = "Index";
+
+         }
+   @{
+   
+      Layout = "~/Views/Shared/_layoutreportOpe.cshtml";
+    }
+    <h2>Relatórios de OPE´s</h2>
+    <link href="@Url.Content("~/Content/css/bootstrap-multiselect.css")" rel="stylesheet" type="text/css"/>
+    <link href="@Url.Content("~/Content/css/prettify.css")" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/bootstrap-multiselect.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/prettify.js")"></script>
+ 
+         
+        <style type="text/css">
+            table pre.prettyprint {
+                        overflow-y: auto;
+                        max-width: 500px;
+                        max-height: 250px;
+            }
+        </style>
+  
+<div class="theme-panel hidden-xs hidden-sm">
+				<div class="toggler">
+				</div>
+				<div class="toggler-close">
+				</div>
+				<div class="theme-options">
+					
+					<div class="theme-option">
+						<span>
+						Layout </span>
+						<select class="layout-option form-control input-small">
+							<option value="fluid" selected="selected">Fluid</option>
+							<option value="boxed">Boxed</option>
+						</select>
+					</div>
+					
+					
+					<div class="theme-option">
+						<span>
+						Sidebar Position </span>
+						<select class="sidebar-pos-option form-control input-small">
+							<option value="left" selected="selected">Left</option>
+							<option value="right">Right</option>
+						</select>
+					</div>
+					<div class="theme-option">
+						<span>
+						Footer </span>
+						<select class="page-footer-option form-control input-small">
+							<option value="fixed">Fixed</option>
+							<option value="default" selected="selected">Default</option>
+						</select>
+					</div>
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+					<h3 class="page-title">
+					
+					</h3>
+					<ul class="page-breadcrumb breadcrumb"> 
+						<li class="btn-group" style = "display : none;">
+							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+							<span>Actions</span><i class="fa fa-angle-down"></i>
+							</button>
+							<ul class="dropdown-menu pull-right" role="menu">
+								<li>
+									<a href="#">Action</a>
+								</li>
+								<li>
+									<a href="#">Another action</a>
+								</li>
+								<li>
+									<a href="#">Something else here</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									<a href="#">Separated link</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<i class="fa fa-home"></i>
+							<a href="">Relatorios</a>
+							<i class="fa fa-angle-right"></i>
+                            <a href="">Ope</a>
+						</li>
+					
+					</ul>
+					<!-- END PAGE TITLE & BREADCRUMB-->
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN EXAMPLE TABLE PORTLET-->
+					<div class="portlet box grey-cascade">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="fa fa-globe"></i>Relatórios de OPE´s Table
+							</div>
+							<div class="tools" style = "display : none;">
+								<a href="javascript:;" class="collapse">
+								</a>
+								<a href="#portlet-config" data-toggle="modal" class="config">
+								</a>
+								<a href="javascript:;" class="reload">
+								</a>
+								<a href="javascript:;" class="remove">
+								</a>
+							</div>
+						</div>
+                       
+						    <div class="portlet-body" style ="height:400px;">
+                                <form action="/reportOpe/reportOpePdf")" method="post" target="_blank">
+			                      <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><div style="margin-top:10px; text-align:right;">Escola:</div></td>
+                                            <td>
+                                                 <select name="escolas" id="listbox">
+                                                    @foreach (var item in Model.escolas)
+                                                           {
+                                                                 <option value="@item.id">
+                                                                      @item.nome 
+                                                                 </option>                  
+                                                           }
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><div style="margin-top:10px; text-align:right;">Situações:</div></td>
+                                            <td>
+                                                <select id="producaoList" name = "producaoList"  multiple style ="width:300px;">
+                                                    @foreach (var item in Model.producao_situacoes)
+                                                           {
+
+                                                                   <option value="@item.id">
+                                                                      @item.descricao 
+                                                                   </option>                  
+                                                           }
+                               
+                                                </select>
+                                            </td>
+                                
+                                        </tr>
+                              
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                               <td></td>
+                                               <td><!--<input type="button" name="btnConsulta" id="btnConsulta" value="Consultar" class="btn">-->
+                                                          <input type="submit" name="geraPdf" id="geraPdf" value="Consultar" class="btn">
+                                               </td>`
+                                       </tr>
+                                    </tfoot>
+                                </table>
+                               </form>
+                            </div>
+                         
+                      </div>
+                    </div>
+                   </div>    
+	
+	 <script>
+	     $(document).ready(function () {
+
+
+	         $('#producaoList').multiselect({
+
+	             enableFiltering: true,
+	             maxHeight: 300
+	         });
+	     });
+	 </script>
+	 
+    

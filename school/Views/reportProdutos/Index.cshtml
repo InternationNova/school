@@ -1,0 +1,278 @@
+﻿
+@model school.Classes.reportProdutos
+
+@{
+    ViewBag.Title = "Index";
+}
+@{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/ecmascript">
+    $(document).ready(function () {
+
+       
+
+    });
+
+    function mostrarProdutos() {
+        $("#codigoSmk").show();
+        esconderOpe();
+        esconderIndividual();
+    }
+
+    function mostrarOpe() {
+        $("#codigoOpe").show();
+        esconderIndividual();
+        esconderProdutos();
+    }
+
+    function mostrarIndividual() {
+        $("#div_individual").show();
+        esconderProdutos();
+        esconderOpe();
+    }
+
+    function esconderIndividual() {
+        $("#div_individual").hide();
+    }
+
+    function esconderProdutos() {
+        $("#codigoSmk").hide();
+    }
+
+    function esconderOpe() {
+        $("#codigoOpe").hide();
+    }
+
+    function buscaItem(x, y) {
+        var conc = '#produto' + y;
+        $.ajax(
+		  {
+		      method: "get",
+		      url: "view/relatorios/produtos/buscaItem.php",
+		      data: "cod_smk=" + x + "&op=item_smk",
+		      beforeSend: function () {
+		          $("#descricao_item").html("Pesquisando...");
+		      },
+		      success: function (conteudo) {
+		          if (conteudo == 0) {
+		              alert("Não foi encontrado ítem com este código.");
+		              $('#codigo_smk').val("");
+		              $('#codigo_smk').focus();
+		              $(conc).val("Digite um código válido.");
+		          } else {
+		              $(conc).val(conteudo);
+		          }
+		      }
+		  }
+		);
+    };
+
+    function buscaItemIndividual(x) {
+        if ($('#codigo_individual').is(":empty"))
+            $.ajax(
+		  {
+		      method: "get",
+		      url: "view/relatorios/produtos/buscaItem.php",
+		      data: "cod_smk=" + x + "&op=item_smk",
+		      beforeSend: function () {
+		          $("#descricao_item").html("Pesquisando...");
+		      },
+		      success: function (conteudo) {
+		          if (conteudo == 0) {
+		              alert("Não foi encontrado ítem com este código.");
+		              $('#codigo_individual').val("");
+		              $('#codigo_individual').focus();
+		              $('#produto_individual').val("Digite um código válido.");
+		          } else {
+		              $('#produto_individual').val(conteudo);
+		          }
+		      }
+		  }
+		);
+    };
+
+    function addProduto(x) {
+        var input = '#codigo_smk' + x;
+        x++;
+        $(input).parent().after
+        (
+            '<label for="codigo_smk' + x + '"><a href="javascript:addProduto(' + x + ');" title="Adicionar outra pessoa."><i class="icon-plus-sign"></i></a><input type="input" name="codigo_smk[]" id="codigo_smk' + x + '" value="" onchange="buscaItem(this.value,' + x + ');" class="input-small"><input type="input" name="produto[]" id="produto' + x + '" value="" class="input-xxlarge" readonly="readonly"></label>'
+        );
+    }
+
+    function addEscola(x) {
+
+        var input = '#escolas_id' + x;
+        //alert(input);
+        x++;
+        $(input).parent().after
+        (
+            '<label for="escolas_id' + x + '"><a href="javascript:addEscola(' + x + ');" title="Adicionar outra escola."><i class="icon-plus-sign"></i></a><select name="escolas_id[]" size="1" id="escolas_id' + x + '" class="span5"></select></label>'
+        );
+        input = '#escolas_id' + x;
+        $(input).load("/reportProdutos/getEscolas");
+    }
+</script>
+    @{
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    }
+   <div class="theme-panel hidden-xs hidden-sm">
+				<div class="toggler">
+				</div>
+				<div class="toggler-close">
+				</div>
+				<div class="theme-options">
+					
+					<div class="theme-option">
+						<span>
+						Layout </span>
+						<select class="layout-option form-control input-small">
+							<option value="fluid" selected="selected">Fluid</option>
+							<option value="boxed">Boxed</option>
+						</select>
+					</div>
+					
+					
+					<div class="theme-option">
+						<span>
+						Sidebar Position </span>
+						<select class="sidebar-pos-option form-control input-small">
+							<option value="left" selected="selected">Left</option>
+							<option value="right">Right</option>
+						</select>
+					</div>
+					<div class="theme-option">
+						<span>
+						Footer </span>
+						<select class="page-footer-option form-control input-small">
+							<option value="fixed">Fixed</option>
+							<option value="default" selected="selected">Default</option>
+						</select>
+					</div>
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+					<h3 class="page-title">
+					Relatórios ref. a produtos 
+					</h3>
+					<ul class="page-breadcrumb breadcrumb" style = "">
+						<li class="btn-group"  style = "display: none;">
+							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+							<span>Actions</span><i class="fa fa-angle-down"></i>
+							</button>
+							<ul class="dropdown-menu pull-right" role="menu">
+								<li>
+									<a href="#">Action</a>
+								</li>
+								<li>
+									<a href="#">Another action</a>
+								</li>
+								<li>
+									<a href="#">Something else here</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									<a href="#">Separated link</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<i class="fa fa-home"></i>
+							<a href="index.html">Relatórios</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>
+							<a href="#">produtos</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						
+					</ul>
+					<!-- END PAGE TITLE & BREADCRUMB-->
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN EXAMPLE TABLE PORTLET-->
+				        <div class="portlet box grey-cascade">
+						        <div class="portlet-title">
+							        <div class="caption">
+								        <i class="fa fa-globe"></i>Relatórios ref. a produtos
+							        </div>
+							        <div class="tools" style = "display:none;">
+								        <a href="javascript:;" class="collapse">
+								        </a>
+								        <a href="#portlet-config" data-toggle="modal" class="config">
+								        </a>
+								        <a href="javascript:;" class="reload">
+								        </a>
+								        <a href="javascript:;" class="remove">
+								        </a>
+							        </div>
+						        </div>
+						        <div class="portlet-body">
+							        <div class="table-toolbar" style = "display: inline-block;">
+
+                                          <form name="form1" id="form1" method="post" action="/reportProdutos/reportProdutosPdf" target="_blank">
+                                            <table id="example" width="100%" border="0" class="table">
+                                                <tbody> 
+                                                <tr>
+                                                  <td nowrap="nowrap" width="85">Situação:</td>
+                                                  <td width="942"><label for="producao_situacao_id"></label>
+                                                       <select name="listbox" id="listbox" name="producao_situacao_id">
+                                                            @foreach (var item in Model.producao_situacoes)
+                                                                   {
+                                                                         <option value="@item.id">
+                                                                              @item.descricao 
+                                                                         </option>                  
+                                                                   }
+                                                        </select>
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <td>Escola:</td>
+                                                  <td><label for="escolas_id">
+				                                     <a href="javascript:addEscola(0);" title="Adicionar outra escola."><i class="icon-plus-sign"></i></a>
+				                                     <select name="listbox" id="escolas_id0" class="span5" name = "escolas_id">
+                                                            @foreach (var item in Model.escolas)
+                                                                   {
+                                                                         <option value="@item.id">
+                                                                              @item.nome 
+                                                                         </option>                  
+                                                                   }
+                                                      </select>
+				                                      </label>
+	  
+			                                        </td>
+                                                </tr>
+                                                <tr>
+                                                  <td nowrap="nowrap">Cod. SMK:  
+                                                  </td>
+                                                  <td nowrap="nowrap">
+                                                  <label for="codigo_smk">
+                                                                <a href="javascript:addProduto(0);" title="Adicionar outro produto."><i class="icon-plus-sign"></i></a>
+                                                                <input type="input" name="codigo_smk" id="codigo_smk0" value="" onchange="buscaItem(this.value,0);" class="input-small">
+                                                                <input type="input" name="produto" id="produto0" value="" class="input-xxlarge" readonly="readonly">
+                                                   </label></td>
+                                                </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                          <td></td>
+                                                          <td><!--<input type="button" name="btnConsulta" id="btnConsulta" value="Consultar" class="btn">-->
+                                                            <input type="submit" name="geraPdf" id="geraPdf" value="Consultar" class="btn">
+                                                          </td>
+                                                     </tr>
+                                               </tfoot>
+                                            </table>
+                                            </form>
+                                         </div>
+                                        </div>
+                                    </div>
+                                </div>

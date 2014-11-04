@@ -1,0 +1,290 @@
+﻿@model school.Classes.smkProductView
+
+@{
+    ViewBag.Title = "Details";
+}
+@{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var x = 0;
+        $('.linhaMateriaPrima').hide();
+
+        $('.mostraMP').on('click', function () {
+            $(this).parent().parent().nextUntil('.linhas').toggle();
+        });
+    });
+
+    function addDiv(x, y) {
+        var x = "#" + x;
+        $(x).html("<option value='0'>Carregando...</option>");
+        setTimeout(function () {
+            $(x).load("view/ficha_tecnica/carregaMateriaPrima.php", { iden: y })
+        }, 400)
+    };
+
+    function deleta(x, y, codRetorno) { //deleta em tabelas n->m onde tenho duas chaves como referencia
+        if (confirm("Deseja realmente apagar o registro?")) {
+             $.ajax({
+                method: "post",
+                url: "/smkItmes/deletaSubProdutos",
+
+                data: "id1=" + x + "&id2=" + y + "&acao=apagar&idSmkItem=" + codRetorno,
+               
+                success: function (conteudo) {
+                    location.reload();
+                }
+            });
+        
+        }
+    }
+
+    function deletaSubProduto(x, y) { //id e id history
+        if (confirm("Deseja realmente apagar o registro?")) {
+            window.location = "?url=control/sub_produtos_controller.php&id=" + x + "&acao=apagar&smk_itens_id=" + y;
+        }
+    }
+
+    function deletaAcessorios(x, y) { //id e id history
+        if (confirm("Deseja realmente apagar o registro?")) {
+            window.location = "?url=control/acessorios_controller.php&id=" + x + "&acao=apagar&idSmkItem=" + y;
+        }
+    }
+
+</script>
+
+<style>
+    table, th, td {
+        border: 1px solid #ddd !important;
+
+        border-width: 1px 0;
+        }
+</style>
+<div class="theme-panel hidden-xs hidden-sm">
+				<div class="toggler">
+				</div>
+				<div class="toggler-close">
+				</div>
+				<div class="theme-options">
+					
+					<div class="theme-option">
+						<span>
+						Layout </span>
+						<select class="layout-option form-control input-small">
+							<option value="fluid" selected="selected">Fluid</option>
+							<option value="boxed">Boxed</option>
+						</select>
+					</div>
+					
+					
+					<div class="theme-option">
+						<span>
+						Sidebar Position </span>
+						<select class="sidebar-pos-option form-control input-small">
+							<option value="left" selected="selected">Left</option>
+							<option value="right">Right</option>
+						</select>
+					</div>
+					<div class="theme-option">
+						<span>
+						Footer </span>
+						<select class="page-footer-option form-control input-small">
+							<option value="fixed">Fixed</option>
+							<option value="default" selected="selected">Default</option>
+						</select>
+					</div>
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+					<h3 class="page-title">
+					SmkItmes Details 
+					</h3>
+					<ul class="page-breadcrumb breadcrumb" >
+						<li class="btn-group"  style = "display: none;">
+							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+							<span>Actions</span><i class="fa fa-angle-down"></i>
+							</button>
+							<ul class="dropdown-menu pull-right" role="menu">
+								<li>
+									<a href="#">Action</a>
+								</li>
+								<li>
+									<a href="#">Another action</a>
+								</li>
+								<li>
+									<a href="#">Something else here</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									<a href="#">Separated link</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<i class="fa fa-home"></i>
+							<a href="">SmkItmes</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>
+							<a href="#">Details</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						
+					</ul>
+					<!-- END PAGE TITLE & BREADCRUMB-->
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN EXAMPLE TABLE PORTLET-->
+				        <div class="portlet box grey-cascade">
+						        <div class="portlet-title">
+							        <div class="caption">
+								        <i class="fa fa-globe"></i>SmkItmes Details
+							        </div>
+							        <div class="tools" style = "display : none;">
+								        <a href="javascript:;" class="collapse">
+								        </a>
+								        <a href="#portlet-config" data-toggle="modal" class="config">
+								        </a>
+								        <a href="javascript:;" class="reload">
+								        </a>
+								        <a href="javascript:;" class="remove">
+								        </a>
+							        </div>
+						        </div>
+						        <div class="portlet-body">
+							        <div class="table-toolbar" style = "overflow-x: scroll;">
+                                        
+                                        <fieldset>
+                                            
+                                          <table class="table table-hover table table-bordered">
+                                            <thead>
+                                            <tr>
+	                                            <th colspan="2">&nbsp;</th>
+                                                <th colspan="3"><div class="text-center">Acabada(mm)</div></th>
+                                                <th colspan="3"><div class="text-center">Bruto(mm)</div></th>
+                                                <th colspan="3">&nbsp;</th>
+                                                <th colspan="4"><div class="text-center">Controles</div></th>
+                                            </tr>
+                                            <tr>
+	                                            <th width="400px">Sub Produto</th>
+                                                <th width="300px"></th>
+                                                <th>Compr.</th>
+                                                <th>Larg.</th>
+                                                <th>Espess.</th>
+                                                <th>Compr.</th>
+                                                <th>Larg.</th>
+                                                <th>Espess.</th>
+                                                <th>Qtde</th>
+                                                <th>Área(m)</th>
+                                                <th>Perda(%)</th>
+                                                <th width="80">Mat.Prima</th>
+                                                <th width="70">Alterar</th>
+                                                <th width="70">Excluir</th>
+                                            </tr>
+                                            </thead>
+                                          <tbody>
+                                              @foreach (var item in Model.smkSubProdus) {
+                                                  <tr class="linhas">
+
+                                                    <td>@Html.DisplayFor(model => item.sp_descricao)" <i class="mostraMP icon-circle-arrow-right"></i></td>
+                                                    <td>@Html.DisplayFor(model => item.csp_descricao)</td>
+                                                    <td><input type="text" name="subproduto" value ="@Html.DisplayFor(model => item.comprimento_acabada)"  readonly="readonly" class="input-mini" /> </td>
+                                                    <td><input type="text" name="subproduto" value ="@Html.DisplayFor(model => item.comprimento_acabada)"  readonly="readonly" class="input-mini" /> </td>
+                                                    
+													<td><input type="text" name="subproduto" value ="@Html.DisplayFor(model => item.largura_acabada)" readonly="readonly" class="input-mini" /></td>
+                                                    <td><input type="text" name="subproduto" value = "@Html.DisplayFor(model => item.espessura_acabada)" readonly="readonly" class="input-mini" /></td>
+                                                    <td><input type="text" name="subproduto" value = "@Html.DisplayFor(model => item.comprimento_bruto)" readonly="readonly" class="input-mini" /></td>
+                                                    <td><input type="text" name="subproduto" value ="@Html.DisplayFor(model => item.largura_bruto)" readonly="readonly" class="input-mini" /></td>
+                                                    
+                                                    <td><input type="text" name="subproduto" value = "@Html.DisplayFor(model => item.quantidade)" readonly="readonly" class="input-mini" /></td>
+                                                    <td><input type="text" name="subproduto" value = "@Html.DisplayFor(model => item.area)" readonly="readonly" class="input-mini" /></td>
+                                                    <td><input type="text" name="subproduto" value = "@Html.DisplayFor(model => item.perda)" readonly="readonly" class="input-mini" /></td>
+                                                    <td>@Html.ActionLink("add", "addSubProdus", new { id = item.id ,modelId =Model.id })</td>
+                                                    <td>@Html.ActionLink("Alterar", "editSubProdus", new { id = item.id })</td>
+                                                    <td>@Html.ActionLink("Excluir", "deleteSubProdus", new { id = item.id })</td>
+                                                    
+                                                  </tr>
+                                                  <tr class="linhaMateriaPrima">
+                                                    <th>&nbsp;</th>
+                                                    <th><div align="center">Excluir</div></th>
+			                                        <th colspan="9">Materia Prima</th>
+			                                        <th colspan="1">Unidade</th>
+                                                    <th colspan="1">Quantidade</th>
+                                                    <th>&nbsp;</th>
+                                                  </tr>
+                                                  
+                                                  foreach (var modelitme in item.smkAccessory) { 
+                                                    <tr class="linhaMateriaPrima">
+                                                         <td>&nbsp;</td>
+                                                         <td><div align="center" style = "width: 38px;
+                                                                margin-left: 5px;"><a href="javascript:deleta(@modelitme.sub_produtos_id,@modelitme.materia_primas_id ,@Model.id)" title="Excluir o registro." class="btn1"><i class="icon-remove" style = "background-image:url(/Content/img/glyphicons-halflings.png)"></i>Excluir</a></div></td>
+                        	                          
+                                                        <td colspan="9">@Html.DisplayFor( modelItem => modelitme.sub_produtos_id)</td>
+                        	                            <td><div>@Html.DisplayFor(modelItem => modelitme.codigo_smk)</div></td>
+                                                        <td><div align="center">@Html.DisplayFor(modelItem => modelitme.unidade)</td>
+                                                        <td><div align="right">@Html.DisplayFor(modelItem => modelitme.quantitide)</div></td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                  
+                                                  }
+
+                                              }
+                                              <tr>
+			                                        <th colspan="4">Materia Prima</th>
+                                                    <th colspan="4">Categoria</th>
+			                                        <th>Unidade</th>
+			                                        <th>Quantidade</th>
+			                                        <th colspan="2"><div class="text-center">Alterar</div></th>
+			                                        <th colspan="2"><div class="text-center">Excluir</div></th>
+                                                </tr>
+                                              @foreach (var item in Model.smkAccessory1) 
+                                              { 
+                                                  <tr>
+                                                    <td colspan="4">@Html.DisplayFor(model => item.codigo_smk)</td>
+                                                    <td colspan="4">@Html.DisplayFor(model => item.categoria)</td>
+                                                    <td>@Html.DisplayFor(model => item.unidade)</td>
+                                                    <td>@Html.DisplayFor(model => item.quantitide)</td>
+                                                    <td colspan="2">@Html.ActionLink("Alterar", "editAccessory", new { id = item.id }) </td>
+                                                    <td colspan="2">@Html.ActionLink("Excluir", "deleteAccessory", new { id = item.id })</td>
+                                                    
+                                                  </tr>
+                                              
+                                              }
+                                                
+                                              @foreach (var item in Model.smkAccessory2) 
+                                              { 
+                                                  <tr>
+                                                    <td colspan="4">@Html.DisplayFor(model => item.codigo_smk)</td>
+                                                    <td colspan="4">@Html.DisplayFor(model => item.categoria)</td>
+                                                    <td>@Html.DisplayFor(model => item.unidade)</td>
+                                                    <td>@Html.DisplayFor(model => item.quantitide)</td>
+                                                    <td colspan="2"></td>
+                                                    <td colspan="2"></td>
+                                                    
+                                                  </tr>
+                                              
+                                              }
+                                          </tbody>
+                                          </table>
+                                    </fieldset>
+                                    <p class = "buttonParam">
+                                        <button id="sample_editable_1_new" class="btn green" >
+                                           Adicionar Sub Produto
+                                        </button>
+                                        <button id="sample_editable_1_new" class="btn green">
+                                           Adicionar Acessório
+                                        </button>
+                                        <button id="sample_editable_1_new" class="btn green">
+                                            Voltar
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
