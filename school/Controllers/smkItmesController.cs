@@ -141,11 +141,18 @@ namespace school.Controllers
                         {
                             quantidadeLargura = ((subProdutosObj.largura_acabada/1000)*(subProdutosObj.espessura_acabada/1000))*consumosArr[j].quantidade;
                         }
-                        if(($d == 1) && ($e == 1))
+                        if((Convert.ToInt32(d) == 1) && (Convert.ToInt32(e) == 1))
+                        {
+                        
+                            quantidadeComprimento = (((subProdutosObj.comprimento_acabada/1000)*
+                        }
 
                     }
                     
 			        //buscando o consumo do polistein
+
+
+
 			        $mySql = $principal->meuSql("select quantidade from consumos where materia_primas_id = ".$codMateriaPrima."");
 			        while ($dadosQuantidadeConsumo = mysql_fetch_array($mySql))
 			        {
