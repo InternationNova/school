@@ -81,7 +81,7 @@ namespace school.Controllers
 
             estados estados = new estados();
 
-            estados = db.estados.Find(id);
+                estados = db.estados.Find(id);
             estadosNome = estados.nome;
 
             return estadosNome;

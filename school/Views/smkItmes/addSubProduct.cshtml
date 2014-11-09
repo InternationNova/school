@@ -1,0 +1,218 @@
+﻿@model school.Models.smk_itens
+@{
+    ViewBag.Title = "Details";
+}
+@{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    function calculaArea(tipo) {
+        var categoria = $("#tipo_calculo :selected").val();
+        //alert($("#tipo_calculo :selected").val());
+        if (tipo == 1)//area acabada
+        {
+            var comprimento = $("#comprimento_acabada").val();
+            var largura = $("#largura_acabada").val();
+            var espessura = $("#espessura_acabada").val();
+            var quantidade = $("#quantidade").val();
+
+            if (categoria == 'laminado/mdf') {
+                //alert('c'+comprimento+'l'+largura+'q'+quantidade);
+                var area = (comprimento / 1000) * (largura / 1000) * quantidade;
+            } else if (categoria == 'madeira') {
+                var area = (comprimento / 1000) * (largura / 1000) * (espessura / 1000) * quantidade;
+            } else {
+                alert("Selecione uma categoria!");
+                $('input:radio').each(function () {
+                    $(this).prop('checked', false);
+                });
+            }
+        } else if (tipo == 2)//area bruta
+        {
+            var comprimento = $("#comprimento_bruto").val();
+            var largura = $("#largura_bruto").val();
+            var espessura = $("#espessura_bruto").val();
+            var quantidade = $("#quantidade").val();
+
+            if (categoria == 'laminado/mdf') {
+                var area = (comprimento / 1000) * (largura / 1000) * quantidade;
+            } else if (categoria == 'madeira') {
+                var area = (comprimento / 1000) * (largura / 1000) * (espessura / 1000) * quantidade;
+            } else {
+                alert("Selecione uma categoria!");
+                $('input:radio').each(function () {
+                    $(this).prop('checked', false);
+                });
+            }
+        }
+        var gg = area.toFixed(5);
+        $("#area").val(gg);
+    }
+</script>
+<div class="theme-panel hidden-xs hidden-sm">
+				<div class="toggler">
+				</div>
+				<div class="toggler-close">
+				</div>
+				<div class="theme-options">
+					
+					<div class="theme-option">
+						<span>
+						Layout </span>
+						<select class="layout-option form-control input-small">
+							<option value="fluid" selected="selected">Fluid</option>
+							<option value="boxed">Boxed</option>
+						</select>
+					</div>
+					
+					
+					<div class="theme-option">
+						<span>
+						Sidebar Position </span>
+						<select class="sidebar-pos-option form-control input-small">
+							<option value="left" selected="selected">Left</option>
+							<option value="right">Right</option>
+						</select>
+					</div>
+					<div class="theme-option">
+						<span>
+						Footer </span>
+						<select class="page-footer-option form-control input-small">
+							<option value="fixed">Fixed</option>
+							<option value="default" selected="selected">Default</option>
+						</select>
+					</div>
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+					<h3 class="page-title">
+					Adicionar Sub Produto
+					</h3>
+					<ul class="page-breadcrumb breadcrumb" >
+						<li class="btn-group"  style = "display: none;">
+							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+							<span>Actions</span><i class="fa fa-angle-down"></i>
+							</button>
+							
+						</li>
+						<li>
+							<i class="fa fa-home"></i>
+							<a href="">Adicionar</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>
+							<a href="#">Sub Produto</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						
+					</ul>
+					<!-- END PAGE TITLE & BREADCRUMB-->
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN EXAMPLE TABLE PORTLET-->
+				        <div class="portlet box grey-cascade">
+						        <div class="portlet-title">
+							        <div class="caption">
+								        <i class="fa fa-globe"></i>
+							        </div>
+							        
+						        </div>
+						        <div class="portlet-body" style ="overflow-x: scroll;">
+
+                                    <h2 align="center">Adicionar Sub Produto</h2>
+                                    <form action="?url=control/sub_produtos_controller.php" method="post" name="form1" id="form1">
+                                    <input name="acao" id="acao" type="hidden" value="inserir" />
+                                    <table border="0" align="center" class="table table-striped table-bordered table-hover table-condensed" id="tblDetalhes">
+                                    <thead>
+                                    <tr>
+	                                    <th><input type="hidden" name="smk_itens_id" value="@Model.id" />
+	                                         @(Model.codigo_smk + "- " + @Model.descricao)
+		                                    
+	                                      
+	                                    </th>
+                                        <th colspan="3"><div class="text-center">Acabado(mm)</div></th>
+                                        <th colspan="3"><div class="text-center">Bruto(mm)</div></th>
+                                        <th colspan="3">&nbsp;</th>
+                                    </tr>
+                                    <tr>
+	                                    <th>Sub Produto</th>
+                                        <th>Comprimento</th>
+                                        <th>Largura</th>
+                                        <th>Espessura</th>
+                                        <th>Comprimento</th>
+                                        <th>Largura</th>
+                                        <th>Espessura</th>
+                                        <th width="100">Quantidade</th>
+                                        <th width="100">Área(m)</th>
+                                        <th width="110">Perda(%)</th>
+                                    </tr>
+                                    <tr>
+                                      <td><label for="descricao"></label>
+                                        <input type="text" name="descricao" id="descricao" class="input-xxlarge"/></td>
+                                      <td><label for="comprimento_acabada"></label>
+                                        <input type="text" name="comprimento_acabada" id="comprimento_acabada" class="input-small" /></td>
+                                      <td><label for="largura_acabada"></label>
+                                        <input type="text" name="largura_acabada" id="largura_acabada" class="input-small"/></td>
+                                      <td><label for="espessura_acabada"></label>
+                                        <input type="text" name="espessura_acabada" id="espessura_acabada" class="input-small"/></td>
+                                      <td><label for="comprimento_bruto"></label>
+                                        <input type="text" name="comprimento_bruto" id="comprimento_bruto" class="input-small"/></td>
+                                      <td><label for="largura_bruto"></label>
+                                        <input type="text" name="largura_bruto" id="largura_bruto" class="input-small"/></td>
+                                      <td><label for="espessura_bruto"></label>
+                                        <input type="text" name="espessura_bruto" id="espessura_bruto" class="input-small"/></td>
+                                        <td><label for="quantidade"></label>
+                                        <input type="text" name="quantidade" id="quantidade" class="input-small"/></td>
+                                      <td><label for="area"></label>
+                                        <input type="text" name="area" id="area" readonly="readonly" class="input-small"/></td>
+                                      <td><label for="perda"></label>
+                                        <input type="text" name="perda" id="perda" class="input-small"/></td>
+
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <label for="categoria_sub_produtos_id"></label>
+                                        <strong>Categoria:</strong><br /> 
+                                        <select name="categoria_sub_produtos_id" size="1" id="categoria_sub_produtos_id">
+                                          <option value="0" selected="selected">Selecione</option>
+                                          <?php
+				                                    $principal = new Principal();
+				                                    foreach($principal-> () as $dados)
+				                                    {
+                                                  ?>
+                                          <option value="<?php echo $dados->getId(); ?>"><?php echo $dados->getDescricao(); ?></option>
+                                          <?php
+                                                   }?>
+                                          </select>
+      
+                                          <label for="calculo"></label>
+                                        <strong>Tipo de Calculo:</strong><br /> 
+                                        <select name="tipo_calculo" size="1" id="tipo_calculo">
+                                          <option value="0" selected="selected">Selecione</option>
+                                          <option value="madeira">Madeira</option>
+                                          <option value="laminado/mdf">Laminado/MDF</option>
+                                         </select>
+                                      </td>
+                                      <td colspan="9"><strong>Cálculo da área: </strong>
+                                    <label>
+                                              <input type="radio" name="calculo_area" value="acabada" id="calculo_area_0" onclick="calculaArea(1);"/>
+                                              Acabada</label>
+                                            <label>
+                                              <input type="radio" name="calculo_area" value="bruta" id="calculo_area_1" onclick="calculaArea(2);" />
+                                              Bruta</label></td>
+                                      </tr>
+                                    <tr>
+                                      <td colspan="10"><div class="text-center"><input type="submit" value="Cadastrar sub produto" class="btn" />
+                                        <input type="button" value="Cancelar" onclick="javascript: window.history.back(-1)" class="btn" /></div></td>
+                                    </tr>
+                                    </thead>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>

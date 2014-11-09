@@ -61,13 +61,13 @@
         if ($('#esquerda').is(':checked') == true) e = 1;
         $.ajax({
             method: "post",
-            url: "/smkItmes/calculaGastoFitaBorda",
+            url: "/smkItmes/calculaGasto",
             data: "cod=" + $('#materia_primas_id').val() + "&codSubProduto=" + codSubProduto + "&op=fita_borda" + "&s=" + s + "&i=" + i + "&d=" + d + "&e=" + e,
             beforeSend: function () {
                 $("#quantidade").val("Pesquisando...");
             },
             success: function (conteudo) {
-                $('#quantidade').val(conteudo);
+                $('#quantidade').val(conteudo.result);
             }
         });
     }
@@ -89,13 +89,13 @@
         if ($('#verso_p').is(':checked') == true) v = 1;
         $.ajax({
             method: "post",
-            url: "/smkItmes/calculaGastoPolistain",
+            url: "/smkItmes/calculaGasto",
             data: "cod=" + $('#materia_primas_id').val() + "&codSubProduto=" + codSubProduto + "&op=polistein" + "&s=" + s + "&i=" + i + "&d=" + d + "&e=" + e + "&f=" + f + "&v=" + v,
             beforeSend: function () {
                 $("#quantidade").val("Pesquisando...");
             },
             success: function (conteudo) {
-                $('#quantidade').val(conteudo);
+                $('#quantidade').val(conteudo.result);
             }
         });
     }
@@ -180,22 +180,7 @@
 							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
 							<span>Actions</span><i class="fa fa-angle-down"></i>
 							</button>
-							<ul class="dropdown-menu pull-right" role="menu">
-								<li>
-									<a href="#">Action</a>
-								</li>
-								<li>
-									<a href="#">Another action</a>
-								</li>
-								<li>
-									<a href="#">Something else here</a>
-								</li>
-								<li class="divider">
-								</li>
-								<li>
-									<a href="#">Separated link</a>
-								</li>
-							</ul>
+							
 						</li>
 						<li>
 							<i class="fa fa-home"></i>
@@ -219,16 +204,7 @@
 							        <div class="caption">
 								        <i class="fa fa-globe"></i>SmkItmes Details
 							        </div>
-							        <div class="tools" style = "display : none;">
-								        <a href="javascript:;" class="collapse">
-								        </a>
-								        <a href="#portlet-config" data-toggle="modal" class="config">
-								        </a>
-								        <a href="javascript:;" class="reload">
-								        </a>
-								        <a href="javascript:;" class="remove">
-								        </a>
-							        </div>
+							        
 						        </div>
 						        <div class="portlet-body">
 

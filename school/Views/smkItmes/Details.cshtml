@@ -160,7 +160,14 @@
 						        </div>
 						        <div class="portlet-body">
 							        <div class="table-toolbar" style = "overflow-x: scroll;">
-                                        
+                                        <p>@(Model.smk_itensObj.codigo_smk + "-" + Model.smk_itensObj.descricao)</p>
+                                        <p align="center">
+                                               <td>@Html.ActionLink("Adicionar Sub Produto", "addSubProduct", new { codSmk = @Model.smk_itensObj.id })</td>
+                                               <td>@Html.ActionLink("Adicionar Acessório", "registerAcessorio", new { codSmk = @Model.smk_itensObj.id })</td>
+                                               
+                                
+                                                
+                                        </p>
                                         <fieldset>
                                             
                                           <table class="table table-hover table table-bordered">

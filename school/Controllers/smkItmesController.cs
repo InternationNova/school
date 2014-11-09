@@ -84,10 +84,12 @@ namespace school.Controllers
 
             sub_produtos subProdutosObj = new sub_produtos();
             subProdutosObj = db.sub_produtos.Find(Convert.ToInt32(codSubProduto));
-            decimal total;
+            decimal total = 0;
             string opString = op;
-            double quantidadeLargura;
-            double quantidadeComprimento;
+            double quantidadeLargura = 0;
+            double quantidadeComprimento = 0;
+            double quantidadeArea = 0;
+            int codInt = Convert.ToInt32(cod);
 
             if ((opString == "madeira") || (opString == "mdf"))
             {
@@ -97,18 +99,19 @@ namespace school.Controllers
 		    {
                 List<perda> perdaArr= new List<perda>();
 
-              
 
+                
                 perdaArr = (from x in db.perdas
-                     where x.materia_primas_id == Convert.ToInt32(cod)
+                            where x.materia_primas_id == codInt
                      select x
                    ).ToList();
                 for(var j = 0; j < perdaArr.Count ; j++)
                 {
                     if((Convert.ToInt32(s) == 1) && ( Convert.ToInt32(i) == 1)){
                         quantidadeLargura = subProdutosObj.largura_acabada*2 + perdaArr[j].quantidade*2;
-                        
-                    }else if ((Convert.ToInt32(s) == 1) && ( Convert.ToInt32(i) == 1))
+
+                    }
+                    else if ((Convert.ToInt32(s) == 1) || (Convert.ToInt32(i) == 1))
                     {
                         
                         quantidadeLargura = subProdutosObj.largura_acabada + perdaArr[j].quantidade ;
@@ -116,12 +119,13 @@ namespace school.Controllers
                     if(( Convert.ToInt32(d) == 1) && ( Convert.ToInt32(e) == 1))
                     {
                         quantidadeComprimento = subProdutosObj.comprimento_acabada*2 + perdaArr[j].quantidade*2;
-                    }else if(( Convert.ToInt32(d) == 1) && ( Convert.ToInt32(e) == 1))
+                    }
+                    else if ((Convert.ToInt32(d) == 1) || (Convert.ToInt32(e) == 1))
                     {
                         quantidadeComprimento = subProdutosObj.comprimento_acabada  + perdaArr[j].quantidade;
                     }
                  }
-                    total = ((quantidadeComprimento + quantidadeLargura)* perdaArr[j].quantidade)/1000;
+                    total = Convert.ToDecimal(((quantidadeComprimento + quantidadeLargura)* subProdutosObj.quantidade)/1000);
 
             }else if(opString == "polistein")
             {
@@ -129,66 +133,84 @@ namespace school.Controllers
                     List<consumos> consumosArr = new List<consumos>();
                     
                      consumosArr = (from x in db.consumos
-                     where x.materia_primas_id == Convert.ToInt32(cod)
-                     select x
-                        ).ToList();
+                                    where x.materia_primas_id == codInt
+                                    select x
+                                    ).ToList();
                     for (var j = 0; j < consumosArr.Count ; j++)
                     {
                         if(( Convert.ToInt32(s) == 1) && ( Convert.ToInt32(i) == 1))
                         {
-                            quantidadeLargura = ((( subProdutosObj.largura_acabada/1000 ) * (subProdutosObj.espessura_acabada /1000))*2)*(consumosArr[j].quantidade*2);
-                        }else if (( Convert.ToInt32(s) == 1) && ( Convert.ToInt32(i) == 1))
+                            quantidadeLargura = ((((double)(subProdutosObj.largura_acabada) / 1000.0) * ((double)(subProdutosObj.espessura_acabada) / 1000)) * 2) * (consumosArr[j].quantidade * 2);
+                        }
+                        else if ((Convert.ToInt32(s) == 1) || (Convert.ToInt32(i) == 1))
                         {
-                            quantidadeLargura = ((subProdutosObj.largura_acabada/1000)*(subProdutosObj.espessura_acabada/1000))*consumosArr[j].quantidade;
+                            quantidadeLargura = (((double)(subProdutosObj.largura_acabada)/1000.0)*((double)(subProdutosObj.espessura_acabada)/1000.0))*consumosArr[j].quantidade;
                         }
                         if((Convert.ToInt32(d) == 1) && (Convert.ToInt32(e) == 1))
                         {
                         
-                            quantidadeComprimento = (((subProdutosObj.comprimento_acabada/1000)*
+                            quantidadeComprimento = (((double)(subProdutosObj.comprimento_acabada)/1000.0)*((double)(subProdutosObj.espessura_acabada)/1000.0)*2)*(consumosArr[j].quantidade*2);
                         }
-
+                        else if ((Convert.ToInt32(d) == 1) || (Convert.ToInt32(e) == 1))
+                        {
+                            quantidadeComprimento = (((double)(subProdutosObj.comprimento_acabada) / 1000.0) * ((double)(subProdutosObj.espessura_acabada) / 1000.0)) * (consumosArr[j].quantidade * 2);
+                        }
+                        if((Convert.ToInt32(f) == 1) && (Convert.ToInt32(v) == 1))
+                        {
+                            quantidadeArea = ((((double)(subProdutosObj.largura_acabada) / 1000.0) * ((double)(subProdutosObj.espessura_acabada) / 1000.0)) * 2) * (consumosArr[j].quantidade * 2);
+                        }
+                        else if ((Convert.ToInt32(f) == 1) || (Convert.ToInt32(v) == 1))
+                        {
+                            quantidadeArea = (((double)(subProdutosObj.comprimento_acabada) / 1000.0) * ((double)(subProdutosObj.espessura_acabada) / 1000.0)) * (consumosArr[j].quantidade * 2);
+                        }                 
                     }
+                    total = Convert.ToDecimal(((quantidadeComprimento + quantidadeLargura + quantidadeArea )*subProdutosObj.quantidade)); 
+			       
+            }else if(opString == "cola_hotmelt")
+            {
+                List<sub_produtos_materia_primas> sub_produtos_materia_primasArr = new List<sub_produtos_materia_primas>();
+
+                sub_produtos_materia_primasArr = (from x in db.sub_produtos_materia_primas
+                                        where x.sub_produtos_id == subProdutosObj.id &&
+                                              x.calculo == "fita_borda"
+                                         select x
+                                            ).ToList();
+                for(var j = 0 ; j < sub_produtos_materia_primasArr.Count;j++){
+                    List<consumos> consumosArr = new List<consumos>();
+
+                    consumosArr = (from x in db.consumos
+                                   where x.materia_primas_id == codInt
+                                   select x).ToList();
+
+                    for( var k = 0 ; k < consumosArr.Count;k++){
+                        total = Convert.ToDecimal((subProdutosObj.quantidade * ((double)(subProdutosObj.espessura_acabada) / 1000.0)) * consumosArr[k].quantidade);
+                    }
+
+                }
+                
+                                    
+            }else if(opString == "cola_contato"){
+                
+                List<consumos> consumosArr = new List<consumos>();
+
+                    consumosArr = (from x in db.consumos
+                                   where x.materia_primas_id == codInt
+                                   select x).ToList();
+                for(var j = 0 ; j < consumosArr.Count;j++){
                     
-			        //buscando o consumo do polistein
-
-
-
-			        $mySql = $principal->meuSql("select quantidade from consumos where materia_primas_id = ".$codMateriaPrima."");
-			        while ($dadosQuantidadeConsumo = mysql_fetch_array($mySql))
-			        {
-				        //utilizarei a largura acabada
-				        if(($s == 1) && ($i == 1))
-				        {
-					        $quantidadeLargura = ((($dadosSubProduto['largura_acabada']/1000) * ($dadosSubProduto['espessura_acabada']/1000))*2) * ($dadosQuantidadeConsumo['quantidade']*2);	
-				        }else if(($s == 1) || ($i == 1))
-				        {
-					        $quantidadeLargura = (($dadosSubProduto['largura_acabada']/1000) * ($dadosSubProduto['espessura_acabada']/1000))*$dadosQuantidadeConsumo['quantidade'];
-				        }
-				
-				        if(($d == 1) && ($e == 1))
-				        {
-					        $quantidadeComprimento = ((($dadosSubProduto['comprimento_acabada']/1000) * ($dadosSubProduto['espessura_acabada']/1000))*2) * ($dadosQuantidadeConsumo['quantidade']*2);	
-				        }else if(($d == 1) || ($e == 1))
-				        {
-					        $quantidadeComprimento = (($dadosSubProduto['comprimento_acabada']/1000) * ($dadosSubProduto['espessura_acabada']/1000))*$dadosQuantidadeConsumo['quantidade'];	
-				        }
-				
-				        if(($f == 1) && ($v == 1))
-				        {
-					        $quantidadeArea = ((($dadosSubProduto['comprimento_acabada']/1000) * ($dadosSubProduto['largura_acabada']/1000))*2) * ($dadosQuantidadeConsumo['quantidade']*2);	
-				        }else if(($f == 1) || ($v == 1))
-				        {
-					        $quantidadeArea = (($dadosSubProduto['comprimento_acabada']/1000) * ($dadosSubProduto['largura_acabada']/1000)) * ($dadosQuantidadeConsumo['quantidade']);
-				        }
-			        }
-			        $total = (($quantidadeComprimento + $quantidadeLargura + $quantidadeArea)*$dadosSubProduto['quantidade']);
-
-            
+                    total = Convert.ToDecimal((double)(subProdutosObj.area) * consumosArr[j].quantidade);
+                    
+                }
+                
             }
-          
-			    
+            else if(opString == "laminado")
+		    {
+				//area * perda cadastrada no subproduto
+				//$total = $dadosSubProduto['area'] * ($dadosQuantidadePerda['quantidade']);
+                total = Convert.ToDecimal((double)(subProdutosObj.area) * (double)(subProdutosObj.area) / 1000.0 + (double)(subProdutosObj.area));
 		    }
-
+			    
+		    
             else {
 
                 total = -1;
@@ -351,6 +373,7 @@ namespace school.Controllers
                 conn.Close();
             }
             smk_itens smk_itens = db.smk_itens.Find(id);
+            smkProductView.smk_itensObj = smk_itens;
 
             return View(smkProductView);
         }
@@ -378,8 +401,6 @@ namespace school.Controllers
                                 cmd.Parameters.AddWithValue("@sub_produtos_id", Convert.ToInt32(id1));
                                 cmd.Parameters.AddWithValue("@materia_primas_id", Convert.ToInt32(id2));
 
-                              
-
                                 conn.Open();
 
 
@@ -399,6 +420,23 @@ namespace school.Controllers
             }
             return Json(new { ok = "success" });
 
+        }
+
+        [HttpGet]
+        public ActionResult addSubProduct(string codSmk) {
+
+            addSubProductView addSubProductViewObj = new addSubProductView();
+            int codsmkInt = Convert.ToInt32(codSmk);
+            smk_itens smk_itensObj = new smk_itens();
+
+            smk_itensObj = (from x in db.smk_itens
+                            where x.id ==  codsmkInt
+                            select x
+                            ).FirstOrDefault(); 
+
+
+
+            return View(smk_itensObj);
         }
 
 
