@@ -8,8 +8,8 @@ namespace school.Classes
 {
     public class addSubProductView
     {
-        smk_itens smk_itensObj {get;set;}
-        categoria_sub_produtos categoria_sub_produtosObj { get; set; }
+        public smk_itens smk_itensObj {get;set;}
+        public List<categoria_sub_produtos> categoria_sub_produtosArr { get; set; }
         
     }
 }

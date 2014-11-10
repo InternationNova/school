@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "Details";
+}
+@{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    function calculaArea(tipo) {
+        var categoria = $("#tipo_calculo :selected").val();
+        //alert($("#tipo_calculo :selected").val());
+        if (tipo == 1)//area acabada
+        {
+            var comprimento = $("#comprimento_acabada").val();
+            var largura = $("#largura_acabada").val();
+            var espessura = $("#espessura_acabada").val();
+            var quantidade = $("#quantidade").val();
+
+            if (categoria == 'laminado/mdf') {
+                //alert('c'+comprimento+'l'+largura+'q'+quantidade);
+                var area = (comprimento / 1000) * (largura / 1000) * quantidade;
+            } else if (categoria == 'madeira') {
+                var area = (comprimento / 1000) * (largura / 1000) * (espessura / 1000) * quantidade;
+            } else {
+                alert("Selecione uma categoria!");
+                $('input:radio').each(function () {
+                    $(this).prop('checked', false);
+                });
+            }
+        } else if (tipo == 2)//area bruta
+        {
+            var comprimento = $("#comprimento_bruto").val();
+            var largura = $("#largura_bruto").val();
+            var espessura = $("#espessura_bruto").val();
+            var quantidade = $("#quantidade").val();
+
+            if (categoria == 'laminado/mdf') {
+                var area = (comprimento / 1000) * (largura / 1000) * quantidade;
+            } else if (categoria == 'madeira') {
+                var area = (comprimento / 1000) * (largura / 1000) * (espessura / 1000) * quantidade;
+            } else {
+                alert("Selecione uma categoria!");
+                $('input:radio').each(function () {
+                    $(this).prop('checked', false);
+                });
+            }
+        }
+        var gg = area.toFixed(5);
+        $("#area").val(gg);
+    }
+</script>
+
+<?php 
+	$principal = new Principal();
+	$mySql = $principal->meuSql("select * FROM sub_produtos sp
+									JOIN categoria_sub_produtos csp ON csp.id = sp.categoria_sub_produtos_id
+									WHERE sp.id=".$_REQUEST['id']."");
+
+    while ($dados = mysql_fetch_array($mySql))
+        {
+?>
+
+<h2 align="center">Alterar Sub Produto</h2>
+<form action="?url=control/sub_produtos_controller.php" method="post" name="form1" id="form1">
+<input name="acao" id="acao" type="hidden" value="editar" />
+    <input name="id" id="id" type="hidden" value="<?php echo $_REQUEST["id"]?>"/>
+<table border="0" align="center" class="table table-striped table-bordered table-hover table-condensed" id="tblDetalhes">
+<thead>
+<tr>
+	<th><input type="hidden" name="smk_itens_id" value="<?php echo $dados['smk_itens_id'];?>" />
+	<?php
+		$principal = new Principal();
+		$mySqlItem = $principal->meuSql("SELECT codigo_smk,descricao FROM `smk_itens` WHERE `id` = ".$_GET['codSmk']."");
+		$dadosItem = mysql_fetch_array($mySqlItem);
+		echo $dadosItem['codigo_smk']." - ".$dadosItem['descricao'];
+	  ?>
+	</th>
+    <th colspan="3"><div class="text-center">Acabado(mm)</div></th>
+    <th colspan="3"><div class="text-center">Bruto(mm)</div></th>
+    <th colspan="3">&nbsp;</th>
+</tr>
+<tr>
+	<th>Sub Produto</th>
+    <th>Comprimento</th>
+    <th>Largura</th>
+    <th>Espessura</th>
+    <th>Comprimento</th>
+    <th>Largura</th>
+    <th>Espessura</th>
+    <th width="100">Quantidade</th>
+    <th width="100">脕rea(m)</th>
+    <th width="110">Perda(%)</th>
+</tr>
+<tr>
+  <td><label for="descricao"></label>
+    <input type="text" name="descricao" id="descricao" class="input-xxlarge" value="<?php echo $dados[1];?>"/></td>
+  <td><label for="comprimento_acabada"></label>
+    <input type="text" name="comprimento_acabada" id="comprimento_acabada" class="input-small" value="<?php echo $dados['comprimento_acabada'];?>" /></td>
+  <td><label for="largura_acabada"></label>
+    <input type="text" name="largura_acabada" id="largura_acabada" class="input-small" value="<?php echo $dados['largura_acabada'];?>"/></td>
+  <td><label for="espessura_acabada"></label>
+    <input type="text" name="espessura_acabada" id="espessura_acabada" class="input-small" value="<?php echo $dados['espessura_acabada'];?>"/></td>
+  <td><label for="comprimento_bruto"></label>
+    <input type="text" name="comprimento_bruto" id="comprimento_bruto" class="input-small" value="<?php echo $dados['comprimento_bruto'];?>"/></td>
+  <td><label for="largura_bruto"></label>
+    <input type="text" name="largura_bruto" id="largura_bruto" class="input-small" value="<?php echo $dados['largura_bruto'];?>"/></td>
+  <td><label for="espessura_bruto"></label>
+    <input type="text" name="espessura_bruto" id="espessura_bruto" class="input-small" value="<?php echo $dados['espessura_bruto'];?>"/></td>
+    <td><label for="quantidade"></label>
+    <input type="text" name="quantidade" id="quantidade" class="input-small" value="<?php echo $dados['quantidade'];?>"/></td>
+  <td><label for="area"></label>
+    <input type="text" name="area" id="area" class="input-small" value="<?php echo $dados['area'];?>" readonly="readonly"/></td>
+  <td><label for="perda"></label>
+    <input type="text" name="perda" id="perda" class="input-small" value="<?php echo $dados['perda'];?>"/></td>
+
+</tr>
+<tr>
+  <td>
+    <label for="categoria_sub_produtos_id"></label>
+    <strong>Categoria:</strong><br /> 
+    <select name="categoria_sub_produtos_id" size="1" id="categoria_sub_produtos_id">
+      <option value="<?php echo $dados[13];?>" selected="selected"><?php echo $dados['descricao'];?></option>
+      <?php
+				foreach($principal->retornaCategoria_sub_produtos() as $dados)
+				{
+              ?>
+      <option value="<?php echo $dados->getId(); ?>"><?php echo $dados->getDescricao(); ?></option>
+      <?php
+               }?>
+      </select>
+      
+      <label for="calculo"></label>
+    <strong>Tipo de Calculo:</strong><br /> 
+    <select name="tipo_calculo" size="1" id="tipo_calculo">
+      <option value="0" selected="selected">Selecione</option>
+      <option value="madeira">Madeira</option>
+      <option value="laminado/mdf">Laminado/MDF</option>
+     </select>
+  </td>
+  <td colspan="9"><strong>C谩lculo da 谩rea: </strong>
+<label>
+          <input type="radio" name="calculo_area" value="acabada" id="calculo_area_0" onclick="calculaArea(1);"/>
+          Acabada</label>
+        <label>
+          <input type="radio" name="calculo_area" value="bruta" id="calculo_area_1" onclick="calculaArea(2);" />
+          Bruta</label></td>
+  </tr>
+<tr>
+  <th colspan="10"><div class="text-center">
+	<input type="submit" id="btnAlterar" value="Alterar" class="btn" />
+    <input type="button" value="Cancelar" onclick="javascript: window.history.back(-1)" class="btn" /></div></th>
+</tr>
+</thead>
+</table>
+</form>
+<?php 	} ?>

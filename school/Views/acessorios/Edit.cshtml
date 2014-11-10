@@ -1,0 +1,51 @@
+﻿@model school.Models.acessorios
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>acessorios</legend>
+
+        @Html.HiddenFor(model => model.id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.smk_itens_id)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.smk_itens_id)
+            @Html.ValidationMessageFor(model => model.smk_itens_id)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.materia_primas_id)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.materia_primas_id)
+            @Html.ValidationMessageFor(model => model.materia_primas_id)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.quantidade)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.quantidade)
+            @Html.ValidationMessageFor(model => model.quantidade)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

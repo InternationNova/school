@@ -1,0 +1,176 @@
+﻿@model school.Models.smk_itens
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<script type="text/javascript">
+    function buscaItem(x) {
+
+        $.ajax(
+		  {
+		      method: "post",
+		      url: "/smkItmes/buscaItem",
+		      data: "cod_smk=" + x + "&op=item_smk",
+		      beforeSend: function () {
+		          $("#descricao_item").html("Pesquisando...");
+		      },
+		      success: function (conteudo) {
+		          if (conteudo.conteudo == "0") {
+		              alert("Não foi encontrado ítem com este código.");
+		              $('#smk_itens_id').val("");
+		              $('#memo').focus();
+		              $('#descricao_item').text("Digite um código válido acima.");
+		          } else {
+		              $("#descricao_item").html(conteudo.conteudo);
+
+		          }
+		      }
+		  }
+		);
+    };
+
+    function verificaCadastro(x) {
+        $.ajax(
+		  {
+		      method: "get",
+		      url: "view/ficha_tecnica/buscaItem.php",
+		      data: "cod_smk=" + x + "&idSmk=" + $('#idSmkItem').val() + "&op=verificaCadastro",
+		      beforeSend: function () {
+		          $("#descricao_item").html("Pesquisando...");
+		      },
+		      success: function (conteudo) {
+		          if (conteudo == 1) {
+		              alert("Acess贸rio j谩 cadastrado.");
+		              $('#codigo_smk').val("");
+		              $('#codigo_smk').focus();
+		          }
+		      }
+		  }
+		);
+    };
+</script>
+<style>
+    table, th, td {
+        border: 1px solid #ddd !important;
+
+        border-width: 1px 0;
+        }
+</style>
+<div class="theme-panel hidden-xs hidden-sm">
+				<div class="toggler">
+				</div>
+				<div class="toggler-close">
+				</div>
+				<div class="theme-options">
+					
+					<div class="theme-option">
+						<span>
+						Layout </span>
+						<select class="layout-option form-control input-small">
+							<option value="fluid" selected="selected">Fluid</option>
+							<option value="boxed">Boxed</option>
+						</select>
+					</div>
+					
+					
+					<div class="theme-option">
+						<span>
+						Sidebar Position </span>
+						<select class="sidebar-pos-option form-control input-small">
+							<option value="left" selected="selected">Left</option>
+							<option value="right">Right</option>
+						</select>
+					</div>
+					<div class="theme-option">
+						<span>
+						Footer </span>
+						<select class="page-footer-option form-control input-small">
+							<option value="fixed">Fixed</option>
+							<option value="default" selected="selected">Default</option>
+						</select>
+					</div>
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+					<h3 class="page-title">
+					Cadastrar Acessório
+					</h3>
+					<ul class="page-breadcrumb breadcrumb" >
+						<li class="btn-group"  style = "display: none;">
+							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+							<span>Actions</span><i class="fa fa-angle-down"></i>
+							</button>
+							
+						</li>
+						<li>
+							<i class="fa fa-home"></i>
+							<a href="">Cadastrar</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>
+							<a href="#">Acessório</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						
+					</ul>
+					<!-- END PAGE TITLE & BREADCRUMB-->
+				</div>
+</div>
+<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN EXAMPLE TABLE PORTLET-->
+				        <div class="portlet box grey-cascade">
+						        <div class="portlet-title">
+							        <div class="caption">
+								        <i class="fa fa-globe"></i>Cadastrar Acessório
+							        </div>
+							       
+						        </div>
+						        <div class="portlet-body">
+
+
+                                    <h2 align="center">Cadastrar Acessório</h2>
+                                    <form action="/smkItmes/registerAccessory" method="post" name="form1" id="form1">
+                                        <input name="acao" id="acao" type="hidden" value="inserir" />
+                                        <input type="hidden" id="idSmkItem" name="idSmkItem" value="@Model.id" />
+                                        <input type="hidden" id="calculo" name="calculo" value="acessorio" />
+
+                                        <table border="0" align="center" id="tblDetalhes">
+                                        <thead>
+
+                                        <tr>
+                                            <td colspan="2">
+                                              @(Model.codigo_smk + "-" + Model.descricao)
+                                    
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                          <td nowrap="nowrap">Cód. SMK</td>
+                                          <td><input type="text" name="codigo_smk" value="" class="input-small" id="codigo_smk" onchange="buscaItem(this.value); verificaCadastro(this.value);" /></td>
+                                        </tr>
+                                        <tr>
+                                              <td nowrap="nowrap" width="110">Matéria prima:</td>
+                                              <td><span id="descricao_item">Preencha o código acima da matéria prima</span></td>
+                                            </tr>
+                                        <tr>
+                                          <td>
+                                            Quantidade:</td>
+                                          <td><input type="text" name="quantidade" value="" class="input-small" id="quantidade" /></td>
+                                        </tr>
+                                        <tr>
+                                          <th colspan="4"><div class="text-center"><input type="submit" value="Cadastrar" class="btn" />
+                                            <input type="button" value="Cancelar" onclick="" class="btn" /></div></th>
+                                        </tr>
+                                        </thead>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>

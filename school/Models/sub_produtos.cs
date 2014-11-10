@@ -16,8 +16,8 @@ namespace school.Models
         public int largura_bruto {get;set;}
         public int espessura_bruto {get;set;}
         public int quantidade {get;set;}
-        public decimal area {get;set;}
-        public decimal perda { get; set; }
+        public double area {get;set;}
+        public double perda { get; set; }
         public int smk_itens_id{get;set;}
         public int categoria_sub_produtos_id {get;set;}
 

@@ -1,0 +1,30 @@
+﻿@model school.Models.acessorios
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>acessorios</legend>
+
+    <div class="display-label">smk_itens_id</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.smk_itens_id)
+    </div>
+
+    <div class="display-label">materia_primas_id</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.materia_primas_id)
+    </div>
+
+    <div class="display-label">quantidade</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.quantidade)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

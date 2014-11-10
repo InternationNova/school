@@ -65,6 +65,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\addSubProductView.cs" />
     <Compile Include="Classes\smkaddSubProdutos.cs" />
     <Compile Include="Classes\BinaryContentResult.cs" />
     <Compile Include="Classes\buscaItem.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Classes\smkProductView.cs" />
     <Compile Include="Classes\smkSubProdus.cs" />
     <Compile Include="Classes\StandardPdfRenderer.cs" />
+    <Compile Include="Controllers\acessoriosController.cs" />
     <Compile Include="Controllers\categoriaMateriaPrimasController.cs" />
     <Compile Include="Controllers\categoriaSubProdutosController.cs" />
     <Compile Include="Controllers\consumosController.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\acessorios.cs" />
     <Compile Include="Models\categoria_materia_primas.cs" />
     <Compile Include="Models\categoria_sub_produtos.cs" />
     <Compile Include="Models\consumos.cs" />
@@ -501,6 +504,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\smkItmes\addSubProduct.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\smkItmes\registerAcessorio.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\acessorios\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\acessorios\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\acessorios\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\acessorios\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\acessorios\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\smkItmes\registerAccessory.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\smkItmes\editSubProdus.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

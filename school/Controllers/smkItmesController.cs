@@ -9,6 +9,7 @@ using school.Models;
 using school.Classes;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Linq.Expressions;
 
 namespace school.Controllers
 {
@@ -93,7 +94,7 @@ namespace school.Controllers
 
             if ((opString == "madeira") || (opString == "mdf"))
             {
-                 total = subProdutosObj.area * subProdutosObj.perda / 100 + subProdutosObj.area;
+                total = Convert.ToDecimal(subProdutosObj.area * subProdutosObj.perda / 100 + subProdutosObj.area);
                 
             }else if(opString == "fita_borda")
 		    {
@@ -422,23 +423,122 @@ namespace school.Controllers
 
         }
 
-        [HttpGet]
+        
         public ActionResult addSubProduct(string codSmk) {
 
             addSubProductView addSubProductViewObj = new addSubProductView();
             int codsmkInt = Convert.ToInt32(codSmk);
+
             smk_itens smk_itensObj = new smk_itens();
+
 
             smk_itensObj = (from x in db.smk_itens
                             where x.id ==  codsmkInt
                             select x
-                            ).FirstOrDefault(); 
+                            ).FirstOrDefault();
 
+            List<categoria_sub_produtos> categoria_sub_produtosArr = new List<categoria_sub_produtos>();
+            categoria_sub_produtosArr = (from x in db.categoria_sub_produtos
+                                         select x).ToList();
+
+            addSubProductViewObj.categoria_sub_produtosArr = categoria_sub_produtosArr;
+            addSubProductViewObj.smk_itensObj = smk_itensObj;
+
+            return View(addSubProductViewObj);
+        }
+
+        public ActionResult registerAccessory(string acao , string idSmkItem , string calculo , string codigo_smk , string materia_primas_id, string quantidade) {
+             
+              switch (acao){
+                    case "inserir":
+                            
+                         acessorios acessoriosObj = new acessorios
+                            {
+                                smk_itens_id =Convert.ToInt32(idSmkItem),
+                                materia_primas_id = Convert.ToInt32(materia_primas_id),
+                                quantidade = Convert.ToDouble(quantidade)
+                            };
+
+                            
+                            db.acessorios.Add(acessoriosObj);
+
+
+                            // Submit the change to the database. 
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (Exception e)
+                            {
+                              
+                               db.SaveChanges();
+                            }
+                  
+                        break;
+                 
+                }
+
+
+              return RedirectToAction("Details", "smkItmes", new { id = idSmkItem });
+        }
+
+        public ActionResult AdicionarSub(string acao , string descricao , string comprimento_acabada ,string largura_acabada , string espessura_acabada , string comprimento_bruto , string largura_bruto , string  espessura_bruto , string quantidade , string area , string perda , string smk_itens_id , string categoria_sub_produtos_id ) {
+
+            switch (acao)
+            {
+                case "inserir":
+
+                    sub_produtos sub_produtosObj = new sub_produtos
+                    {
+                        descricao = descricao,
+                        comprimento_acabada = Convert.ToInt32(comprimento_acabada),
+                        largura_acabada = Convert.ToInt32(largura_acabada),
+                        espessura_acabada = Convert.ToInt32(espessura_acabada),
+                        comprimento_bruto = Convert.ToInt32(comprimento_bruto),
+                        largura_bruto = Convert.ToInt32(largura_bruto),
+                        espessura_bruto = Convert.ToInt32(espessura_bruto),
+                        quantidade = Convert.ToInt32(espessura_acabada),
+                        area = Convert.ToDouble(area),
+                        perda = Convert.ToInt32(perda),
+                        smk_itens_id = Convert.ToInt32(smk_itens_id),
+                        categoria_sub_produtos_id = Convert.ToInt32(categoria_sub_produtos_id),
+                    };
+
+
+                    db.sub_produtos.Add(sub_produtosObj);
+
+
+                    // Submit the change to the database. 
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+
+                        db.SaveChanges();
+                    }
+
+                    break;
+
+            }
+            
+            return RedirectToAction("Details", "smkItmes", new { id = smk_itens_id });
+        }
+
+        public ActionResult registerAcessorio(string codSmk){
+
+            smk_itens smk_itensObj = new smk_itens();
+            int codsmkInt = Convert.ToInt32(codSmk);
+
+            smk_itensObj = (from x in db.smk_itens
+                            where x.id == codsmkInt
+                            select x
+                           ).FirstOrDefault();
 
 
             return View(smk_itensObj);
         }
-
 
         public List<smkAccessory> getSmkProduct(int id)
         {
@@ -483,7 +583,13 @@ namespace school.Controllers
 
             return smkAccessory;
         }
-        //
+        public ActionResult editSubProdus() {
+
+            
+            
+            
+            return View();
+        }
         public List<smkAccessory> getSmkAccessory1(int id)
         {
             List<smkAccessory> smkAccessory = new List<smkAccessory>();
