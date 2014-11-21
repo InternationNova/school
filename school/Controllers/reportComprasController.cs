@@ -28,11 +28,55 @@ namespace school.Controllers
             return View();
         }
 
-
-        public ActionResult reportComprasPdf(List<string> memo)
+        public ActionResult buscaItem(string memo, string op)
         {
-            List<string> memos = new List<string>();
-            memos = memo;
+            
+            smk_itens smk_itemObj = new smk_itens();
+            string memoString = memo;
+            string content = "0";
+            switch (op)
+            {
+               
+                case "busca_memo":
+                    reportComprasView reportComprasViewObj = new reportComprasView();
+                    reportComprasViewObj = (from oi in db.Ope_itens 
+                                            join smi in db.smk_itens on oi.smk_itens_id equals smi.id
+                                            where oi.memo == memoString
+                                            select new reportComprasView{
+                                                id = oi.id ,
+                                                codigo_smk = smi.codigo_smk ,
+                                                descricao = smi.descricao
+                                            
+                                            }).FirstOrDefault();
+                    if(reportComprasViewObj != null){
+                        content = reportComprasViewObj.codigo_smk + "-" + reportComprasViewObj.descricao;
+                    }
+                    
+                    return Json(new { conteudo = content });    
+                    break;
+                default:
+                    return Json(new { conteudo = "Falta parâmetros" });
+                    break;
+
+
+            }
+
+            if (Session["USERNAME"] == null)
+            {
+                return Json(new { ok = "failed" });
+
+            }
+            else
+            {
+                return Json(new { ok = "success" });
+            }
+
+
+        }
+        public ActionResult reportComprasPdfView(string comprasString)
+        {
+           
+            string[] memos = comprasString.Split('/'); ;
 
             reportComprasPdf reportComprasPdf = new reportComprasPdf();
             List<reportComprasFirst> reportComprasFirstArray = new List<Classes.reportComprasFirst>();
@@ -43,7 +87,7 @@ namespace school.Controllers
 
             string memoString = "";
 
-            for (var i = 0; i < memos.Count; i++)
+            for (var i = 0; i < memos.Length-1; i++)
             {
                 memoString += " OR oi.memo=" + memos[i];
             }
@@ -175,15 +219,15 @@ namespace school.Controllers
                     string unidade = reader["unidade"].ToString();
                     string descricao = reader["descricao"].ToString();
                     int quantidade = Convert.ToInt32(reader["quantidade"]);
-                    string calculo = reader["calculo"].ToString();
-                    string codigo_smk1 = reader.GetString(5) + "-" + reader.GetString(6);
+                    
+                   
 
                     reportComprasSecond.memo = memoElement;
                     reportComprasSecond.codigo_smk = codigo_smk;
                     reportComprasSecond.unidade = unidade;
                     reportComprasSecond.descricao = descricao;
-                    reportComprasSecond.codigo_smk1 = codigo_smk1;
-
+                    //reportComprasSecond.codigo_smk1 = codigo_smk1;
+                    
                     reportComprasSecondArray.Add(reportComprasSecond);
                 }
 
@@ -192,7 +236,17 @@ namespace school.Controllers
             reportComprasPdf.reportComprasFirst = reportComprasFirstArray;
             reportComprasPdf.reportComprasSecond = reportComprasSecondArray;
 
-            return this.ViewPdf("Customer report", "reportComprasPdf", reportComprasPdf);
+            return View(reportComprasPdf);
+        }
+        public ActionResult reportComprasPdf(List<string> memo)
+        {
+           
+            string comprasString = "";
+            for (int i = 0; i < memo.Count; i++)
+                comprasString = comprasString + memo[i] + "/";
+
+            return new Rotativa.ActionAsPdf("reportComprasPdfView", new { comprasString });
+        
         }
     }
 }

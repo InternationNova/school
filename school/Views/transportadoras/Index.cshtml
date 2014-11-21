@@ -135,9 +135,10 @@
                                             @Html.DisplayFor(modelItem => item.cnpj)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Alterar", "Edit", new { id = item.id }) 
-                                            @Html.ActionLink("Visualizar", "Details", new { id = item.id }) 
-                                            @Html.ActionLink("Excluir", "Delete", new { id = item.id })
+                                            <a class ="btn blue" href="/transportadoras/Edit/@item.id">Alterar</a> 
+                                            <a class ="btn yellow" href="/transportadoras/Details/@item.id">Visualizar</a> 
+                                            <a class ="btn red" href="/transportadoras/Delete/@item.id">Excluir</a>
+
                                         </td>
                                     </tr>
                                 }

@@ -62,5 +62,9 @@ namespace school.Controllers
             Session.Remove("USERNAME");
             return RedirectToAction("Index", "Home");
         }
-    }
+
+        public ActionResult main() {
+            return View();   
+        }   
+    }   
 }

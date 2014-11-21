@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,7 @@ using school.Models;
 using System.Data.SqlClient;
 using school.Classes;
 using System.Configuration;
+
 
 namespace school.Controllers
 {
@@ -35,74 +37,61 @@ namespace school.Controllers
             return View(reportOpes);
         }
 
-
-
-        public ActionResult reportOpePdf(string escolas, List<string> producaoList)
+        public ActionResult reportOpePdfView(string escolasNew, string producaoListString)
         {
-            List<string> producao = new List<string>();
-            producao = producaoList;
+            List<string> producaoInt = new List<string>();
+            List<int> producaoInteger = new List<int>();
             List<reportOpePdf> reportOpePdfArray = new List<reportOpePdf>();
             reportOpePdf reportOpePdf = new reportOpePdf();
 
 
 
-            string esolasId = escolas;
-            string producaoString = "";
-            for (var i = 0; i < producao.Count; i++)
+            string[] strArr = producaoListString.Split('/');
+            //String[] listBuffer = (String[]) producaoListNew;
+                        
+            int esolasId = Convert.ToInt32(escolasNew);
+
+            for (var i = 0; i < strArr.Length-1; i++)
             {
-                producaoString += " OR ps.id like '" + producao[i] + "'";
+                producaoInteger.Add(Convert.ToInt32(strArr[i]));
             }
 
+            reportOpePdfArray = (from x in db.Ope_itens
+                                 join op in db.Opes on x.opes_id equals op.id
+                                 join es in db.escolas on op.escolas_id equals es.id
+                                 join si in db.smk_itens on x.smk_itens_id equals si.id
+                                 join oips in db.ope_itens_producao_situacoes on x.id equals oips.ope_itens_id
+                                 join ps in db.producao_situacoes on oips.producao_situacoes_id equals ps.id
+                                 where producaoInteger.Contains(ps.id) && es.id == esolasId && oips.ativo == 1
+                                 select new reportOpePdf
+                                 {
+                                     numero_processo = op.numero_processo,
+                                     codigo_smk = si.codigo_smk,
+                                     descricao = si.descricao,
+                                     quantidade = x.quantidade,
+                                     ps_descricao = ps.descricao,
+                                     data = oips.data,
+                                     previsao_embarque = x.previsao_embarque,
+                                     nome = es.nome
 
-            string str_query = @"SELECT es.nome, si.descricao, ps.id as ps_id, ps.descricao AS ps_descricao, oi.quantidade, op.numero_processo, oips.data, si.codigo_smk, previsao_embarque
-			FROM ope_itens oi
-			JOIN opes op ON op.id = oi.opes_id
-			JOIN escolas es ON es.id = op.escolas_id
-			JOIN smk_itens si ON si.id = oi.smk_itens_id
-			JOIN ope_itens_producao_situacoes oips ON oips.ope_itens_id = oi.id
-			JOIN producao_situacoes ps ON ps.id = oips.producao_situacoes_id
-			WHERE (ps.id like @producaoStr )
-			AND es.id like @escola
-			AND oips.ativo =1 
-			order by es.nome,ps.id, op.numero_processo";
+                                 }).ToList();
 
-            using (SqlConnection conn = new SqlConnection(str_connection))
-            using (SqlCommand cmd = new SqlCommand(str_query, conn))
-            {
-                cmd.Parameters.AddWithValue("@escola", esolasId);
-                cmd.Parameters.AddWithValue("@producaoStr", producaoString);
-                conn.Open();
+            return View(reportOpePdfArray);
+        }
 
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
+        public ActionResult reportOpePdf(string escolas, List<string> producaoList)
+        {
+            string escolasNew = escolas;
+//            List<string> producaoListNew = producaoList;
+            //return new Rotativa.ActionAsPdf("reportOpePdfView", Object obj);
 
-                    string numero_processo = reader["numero_processo"].ToString();
-                    string codigo_smk = reader["codigo_smk"].ToString() + " - " + reader["descricao"].ToString();
-                    int quantidade = Convert.ToInt32(reader["quantidade"]);
-                    string ps_descricao = reader["ps_descricao"].ToString();
-                    string data = reader["data"].ToString();
-                    string previsao_embarque = reader["previsao_embarque"].ToString();
-                    string nome = reader["nome"].ToString();
+            string producaoListString = "" ;
+            for (int i = 0; i < producaoList.Count; i++)
+                producaoListString = producaoListString +  producaoList[i] + "/";
 
-                    reportOpePdf.numero_processo = numero_processo;
-                    reportOpePdf.codigo_smk = codigo_smk;
-                    reportOpePdf.quantidade = quantidade;
-                    reportOpePdf.ps_descricao = ps_descricao;
-                    reportOpePdf.data = data;
-                    reportOpePdf.previsao_embarque = previsao_embarque;
-                    reportOpePdf.nome = nome;
-
-                    reportOpePdfArray.Add(reportOpePdf);
-
-                }
-
-                conn.Close();
-            }
-
-
-
-            return this.ViewPdf("Customer report", "reportOpePdf", reportOpePdfArray);
+            return new Rotativa.ActionAsPdf("reportOpePdfView", new { escolasNew, producaoListString });
+       	
+            //return View(reportOpePdfArray);
         }
     }
 }

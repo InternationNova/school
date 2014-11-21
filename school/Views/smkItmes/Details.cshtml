@@ -162,8 +162,8 @@
 							        <div class="table-toolbar" style = "overflow-x: scroll;">
                                         <p>@(Model.smk_itensObj.codigo_smk + "-" + Model.smk_itensObj.descricao)</p>
                                         <p align="center">
-                                               <td>@Html.ActionLink("Adicionar Sub Produto", "addSubProduct", new { codSmk = @Model.smk_itensObj.id })</td>
-                                               <td>@Html.ActionLink("Adicionar Acessório", "registerAcessorio", new { codSmk = @Model.smk_itensObj.id })</td>
+                                                <a class = "btn blue" href="/smkItmes/addSubProduct?codSmk=@Model.smk_itensObj.id ">Adicionar Sub Produto</a>
+                                                <a class = "btn blue" href="/smkItmes/registerAcessorio?codSmk=1">Adicionar Acessório</a>
                                                
                                 
                                                 
@@ -213,10 +213,9 @@
                                                     <td><input type="text" name="subproduto" value = "@Html.DisplayFor(model => item.quantidade)" readonly="readonly" class="input-mini" /></td>
                                                     <td><input type="text" name="subproduto" value = "@Html.DisplayFor(model => item.area)" readonly="readonly" class="input-mini" /></td>
                                                     <td><input type="text" name="subproduto" value = "@Html.DisplayFor(model => item.perda)" readonly="readonly" class="input-mini" /></td>
-                                                    <td>@Html.ActionLink("add", "addSubProdus", new { id = item.id ,modelId =Model.id })</td>
-                                                    <td>@Html.ActionLink("Alterar", "editSubProdus", new { id = item.id })</td>
-                                                    <td>@Html.ActionLink("Excluir", "deleteSubProdus", new { id = item.id })</td>
-                                                    
+                                                    <td><a class ="btn blue"href="/smkItmes/addSubProdus/@item.id?modelId=@Model.id">add</a></td>
+                                                    <td><a class = "btn red" href="/smkItmes/editSubProdus/@item.id?modelId=1">Alterar</a></td>
+                                                    <td><a class = "btn yellow" href="/smkItmes/deleteSubProdus/id = @item.id">Excluir</a></td>
                                                   </tr>
                                                   <tr class="linhaMateriaPrima">
                                                     <th>&nbsp;</th>
@@ -258,8 +257,8 @@
                                                     <td colspan="4">@Html.DisplayFor(model => item.categoria)</td>
                                                     <td>@Html.DisplayFor(model => item.unidade)</td>
                                                     <td>@Html.DisplayFor(model => item.quantitide)</td>
-                                                    <td colspan="2">@Html.ActionLink("Alterar", "editAccessory", new { id = item.id }) </td>
-                                                    <td colspan="2">@Html.ActionLink("Excluir", "deleteAccessory", new { id = item.id })</td>
+                                                    <td colspan="2"><a class = "btn red" href="/smkItmes/editAccessory/@item.id">Alterar</a></td>
+                                                    <td colspan="2"><a class = "btn blue" href="/smkItmes/deleteAccessory/@item.id">Excluir</a></td>
                                                     
                                                   </tr>
                                               
@@ -281,17 +280,7 @@
                                           </tbody>
                                           </table>
                                     </fieldset>
-                                    <p class = "buttonParam">
-                                        <button id="sample_editable_1_new" class="btn green" >
-                                           Adicionar Sub Produto
-                                        </button>
-                                        <button id="sample_editable_1_new" class="btn green">
-                                           Adicionar Acessório
-                                        </button>
-                                        <button id="sample_editable_1_new" class="btn green">
-                                            Voltar
-                                        </button>
-                                    </p>
+                                   
                                 </div>
                             </div>
                         </div>

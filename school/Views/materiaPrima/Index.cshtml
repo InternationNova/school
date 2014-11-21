@@ -140,10 +140,10 @@
                                                 @Html.DisplayFor(modelItem => item.decriaco)
                                             </td>
                                             <td>
-                                                @Html.ActionLink("Alterar", "Edit", new { id = item.materia_primas.id }) 
+                                                <a class ="btn red" href="/materiaPrima/Edit/@item.materia_primas.id">Alterar</a> 
                                                 
-                                                @Html.ActionLink("Excluir", "Delete", new { id = item.materia_primas.id })
-                                            </td>
+                                                <a class ="btn yellow" href="/materiaPrima/Delete/@item.materia_primas.id">Excluir</a>
+                                               </td>
                                         </tr>
                                     }
                                 </tbody>

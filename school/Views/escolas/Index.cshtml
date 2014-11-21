@@ -130,6 +130,7 @@
                                         </th>
                                        
                                         <th></th>
+                                      
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -152,11 +153,10 @@
                                                 @Html.DisplayFor(modelItem => item.escolas.telefone)
                                             </td>
                                            
-                                            <td>
-                                                @Html.ActionLink("Alterar", "Edit", new { id = item.escolas.id }) 
-                                                @Html.ActionLink("Visualizar", "Details", new { id = item.escolas.id }) 
-                                                @Html.ActionLink("Excluir", "Delete", new { id = item.escolas.id })
-                                            </td>
+                                            <td><a class = "btn blue" href="/escolas/Edit/@item.escolas.id">Alterar</a> </td>
+                                            <td><a class = "btn yellow" href="/escolas/Details/@item.escolas.id">Visualizar</a> </td>
+                                            <td><a class = "btn red" href="/escolas/Delete/@item.escolas.id">Excluir</a></td>
+                                            
                                         </tr>
                                     }
                                 </tbody>

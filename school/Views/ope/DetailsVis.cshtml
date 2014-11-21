@@ -187,9 +187,14 @@
                                                             @Html.DisplayFor(modelItem => item.situation)
                                                         </td>
                                                         <td>
-                                                            @Html.ActionLink("Alterar", "OpeItemEdit", new { id = item.id, cod = item.codigo_smk, idvisualiza = Model.id}) 
-                                                            @Html.ActionLink("Visualizar", "DetailsItemVis", new { id = item.id }) 
-                                                            @Html.ActionLink("Excluir", "Delete", new { id = item.id })
+                                                            <a class ="btn blue" href="/ope/OpeItemEdit/@item.id?cod=@item.codigo_smk&idvisualiza=@Model.id">Alterar</a> 
+                                                        </td>
+                                                        <td>
+                                                            <a class ="btn red" href="/ope/DetailsItemVis/@item.id">Visualizar</a> 
+                                                            
+                                                        </td>
+                                                        <td>
+                                                            <a class ="btn yellow" href="/ope/Delete/@item.id">Excluir</a>
                                                         </td>
                                                     </tr>
                                                 }

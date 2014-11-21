@@ -144,13 +144,9 @@
                                             </table>
                                           </fieldset>
                                         <p>
-                                             <button id="sample_editable_1_new" class="btn green">
-                                                @Html.ActionLink("Alterar", "Edit", new { id = Model.escolas.id }) 
-                                             </button>
-                                             <button id="sample_editable_1_new" class="btn green">
-                                                 @Html.ActionLink("Voltar", "Index")
-                                             </button>
-                                        </p>
+                                             <a class = "btn red" href="/escolas/Edit/@Model.escolas.id">Alterar</a>
+                                             <a class ="btn blue" href="/escolas">Voltar</a>
+                                             </p>
                                     </div>
                                 </div>
                             </div>

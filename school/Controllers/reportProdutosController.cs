@@ -43,15 +43,67 @@ namespace school.Controllers
 
             return View(escolas);
         }
+        public ActionResult buscaItem(string cod_smk, string op)
+        {
+            
+            smk_itens smk_itemObj = new smk_itens();
+            switch (op)
+            {
+                case "item_smk":
+                    string conteudo1 = "0";
+                    smk_itemObj = (from x in db.smk_itens
+                                   where x.codigo_smk == cod_smk
+                                   select x).FirstOrDefault();
 
-        public ActionResult reportProdutosPdf(string producao_situacao_id, List<string> escolas_id, List<string> codigo_smk)
+                    if (smk_itemObj != null )
+                    {
+                        
+                        conteudo1 = smk_itemObj.descricao;
+                        return Json(new { conteudo = conteudo1 });
+                    }
+                    else
+                    {
+
+                        return Json(new { conteudo = "0" });
+                    }
+
+                    break;
+          
+                default:
+                    return Json(new { conteudo = "Falta parâmetros" });
+                    break;
+
+
+            }
+
+            if (Session["USERNAME"] == null)
+            {
+                return Json(new { ok = "failed" });
+
+            }
+            else
+            {
+                return Json(new { ok = "success" });
+            }
+
+
+        }
+        public ActionResult reportProdutosPdf(string producao_situacao_id, List<string> escolas_id, List<string> codigo_smk, List<string> produto)
         {
             List<string> producao = new List<string>();
             string producao_situacao = producao_situacao_id;
             List<string> escolasId = escolas_id;
             List<string> codigoSmk = codigo_smk;
 
-
+            	
+	        string codigo_smkArr = "";
+            string codigo_escola = "";
+            string titulo = "Relatórios ref. a produtos";
+	        string subtituloSituacao = "" ;
+            string  subtituloEscola = "" ;
+            string subtituloSmk = "";
+            double totalProdutos = 0;
+	      
             string str_query = @"SELECT codigo_smk, es.nome as escola, si.descricao as si_descricao, ps.descricao as ps_descricao, memo, ps.id, SUM( quantidade ) as quantidade FROM ope_itens oi 
 			JOIN opes op on op.id=oi.opes_id JOIN escolas es on es.id=op.escolas_id JOIN smk_itens si ON si.id = oi.smk_itens_id JOIN ope_itens_producao_situacoes oips ON oips.ope_itens_id = oi.id JOIN producao_situacoes ps ON ps.id = oips.producao_situacoes_id WHERE";
 
@@ -137,6 +189,6 @@ namespace school.Controllers
 
             return this.ViewPdf("Customer report", "reportProdutosPdf", reportProdutosPdfArray);
         }
-
+        
     }
 }

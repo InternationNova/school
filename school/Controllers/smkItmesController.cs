@@ -482,8 +482,8 @@ namespace school.Controllers
               return RedirectToAction("Details", "smkItmes", new { id = idSmkItem });
         }
 
-        public ActionResult AdicionarSub(string acao , string descricao , string comprimento_acabada ,string largura_acabada , string espessura_acabada , string comprimento_bruto , string largura_bruto , string  espessura_bruto , string quantidade , string area , string perda , string smk_itens_id , string categoria_sub_produtos_id ) {
-
+        public ActionResult AdicionarSub(string acao , string id , string descricao , string tipo_calculo , string comprimento_acabada ,string largura_acabada , string espessura_acabada , string comprimento_bruto , string largura_bruto , string  espessura_bruto , string quantidade , string area , string perda , string smk_itens_id , string categoria_sub_produtos_id ) {
+            int codSubProduto = Convert.ToInt32(id);  
             switch (acao)
             {
                 case "inserir":
@@ -503,23 +503,236 @@ namespace school.Controllers
                         smk_itens_id = Convert.ToInt32(smk_itens_id),
                         categoria_sub_produtos_id = Convert.ToInt32(categoria_sub_produtos_id),
                     };
-
-
-                    db.sub_produtos.Add(sub_produtosObj);
-
-
-                    // Submit the change to the database. 
-                    try
-                    {
-                        db.SaveChanges();
-                    }
-                    catch (Exception e)
-                    {
-
-                        db.SaveChanges();
-                    }
-
                     break;
+                   case "editar":
+                       {
+                            decimal total = 0;
+                            string op = "";
+                            int quantidadeLargura = 0;
+                            int quantidadeComprimento = 0;
+                            int quantidadeArea = 0;
+                            decimal totalFitaBorda;
+                            sub_produtos subProdutosObj = new sub_produtos();
+                            int subProdutosId = Convert.ToInt32(id);
+
+                            var query =
+                                from ord in db.sub_produtos
+                                where ord.id == subProdutosId
+                                select ord;
+
+                            // Execute the query, and change the column values 
+                            // you want to change. 
+                            foreach (sub_produtos ord in query)
+                            {
+                                ord.descricao = descricao;
+                                ord.largura_acabada = Convert.ToInt32(largura_acabada);
+                                ord.espessura_acabada = Convert.ToInt32(espessura_acabada);
+                                ord.comprimento_bruto = Convert.ToInt32(comprimento_bruto);
+                                ord.largura_bruto = Convert.ToInt32(largura_bruto);
+                                ord.espessura_bruto = Convert.ToInt32(espessura_bruto);
+                                ord.quantidade = Convert.ToInt32(espessura_acabada);
+                                ord.area = Convert.ToDouble(area);
+                                ord.perda = Convert.ToInt32(perda);
+                                ord.smk_itens_id = Convert.ToInt32(smk_itens_id);
+                                ord.categoria_sub_produtos_id = Convert.ToInt32(categoria_sub_produtos_id);
+                                // Insert any additional changes to column values.
+                            }
+
+                        // Submit the changes to the database. 
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (Exception e)
+                            {
+                           
+                            }
+   
+				            sub_produtos_materia_primas sub_produtos_materia_primasObj = new sub_produtos_materia_primas();
+                            sub_produtos_materia_primasObj = (from x in db.sub_produtos_materia_primas
+                                                              where x.sub_produtos_id == codSubProduto
+                                                              select x).FirstOrDefault();
+
+                            op = sub_produtos_materia_primasObj.calculo;
+                      
+
+                            if ((op == "madeira") || (op == "mdf"))
+                            {
+                                total = Convert.ToDecimal(Convert.ToDecimal(area) * Convert.ToDecimal(perda) / 100 + Convert.ToDecimal(area));
+                
+                            }else if(op == "fita_borda")
+                            {
+                                perda perdaObj = new perda();
+
+                                int s = Convert.ToInt32(sub_produtos_materia_primasObj.superior);
+                                int i = Convert.ToInt32(sub_produtos_materia_primasObj.inferior);
+                                int e = Convert.ToInt32(sub_produtos_materia_primasObj.esquerda);
+                                int d = Convert.ToInt32(sub_produtos_materia_primasObj.direita);
+
+                                int materia_primasId = Convert.ToInt32(sub_produtos_materia_primasObj.materia_primas_id);
+
+                                perdaObj = (from x in db.perdas
+                                            where x.materia_primas_id == materia_primasId
+                                     select x
+                                   ).FirstOrDefault();
+
+                                int dadosQuantidadePerda = Convert.ToInt32(perdaObj.quantidade);
+                            
+                                    if(( s == 1) && ( i == 1))
+								    {
+									    quantidadeLargura = Convert.ToInt32(largura_acabada)*2 + dadosQuantidadePerda*2;	
+								    }else if(( s == 1) || ( i == 1))
+								    {
+									    quantidadeLargura = Convert.ToInt32(largura_acabada)+ dadosQuantidadePerda;
+								    }
+								
+								    if(( d == 1) && ( e == 1))
+								    {
+									    quantidadeComprimento = Convert.ToInt32(comprimento_acabada) *2 + dadosQuantidadePerda * 2;	
+								    }else if(( d == 1) || ( e == 1))
+								    {
+									    quantidadeComprimento = Convert.ToInt32(comprimento_acabada) + dadosQuantidadePerda;	
+							        }
+
+
+                                total = ((quantidadeComprimento + quantidadeLargura)* Convert.ToInt32(quantidade))/1000;//converto milimetros para metros
+							    totalFitaBorda = total;
+                            }else if( op == "cola_hotmelt")
+						    {	
+							    //verifico se havia cola hotmelt cadastrada, pois haverá mudança por causa da quantidade de fita alterada também
+							
+                                 sub_produtos_materia_primasObj = (from x in db.sub_produtos_materia_primas
+                                                              where x.sub_produtos_id == codSubProduto && 
+                                                                    x.calculo == "cola_hotmelt"
+                                                              select x).FirstOrDefault();
+                                int materia_primas_id = sub_produtos_materia_primasObj.materia_primas_id; 
+                            
+
+
+                                consumos consumosObj = new consumos();
+                                consumosObj = (from x in db.consumos
+                                               where x.materia_primas_id == materia_primas_id select x).FirstOrDefault();
+
+                                decimal consumousQuantidade = Convert.ToDecimal(consumosObj.quantidade);
+                                total = (Convert.ToDecimal(espessura_acabada)/1000) * consumousQuantidade;
+                            }
+                            else if(op == "laminado"){
+                                total = (Convert.ToDecimal(area) * Convert.ToDecimal(perda)/100) + Convert.ToDecimal(area);
+                            
+                            }else if( op == "polistein"){
+                                decimal quantidadeComprimentoDecimal =0;
+							    decimal quantidadeLarguraDecimal=0;
+							    decimal quantidadeAreaDecimal=0;
+
+						        int s = Convert.ToInt32(sub_produtos_materia_primasObj.superior);
+                                int i = Convert.ToInt32(sub_produtos_materia_primasObj.inferior);
+                                int d = Convert.ToInt32(sub_produtos_materia_primasObj.direita);
+                                int e = Convert.ToInt32(sub_produtos_materia_primasObj.esquerda);
+                                int f = Convert.ToInt32(sub_produtos_materia_primasObj.frente);
+                                int v = Convert.ToInt32(sub_produtos_materia_primasObj.verso);
+                           
+                                sub_produtos_materia_primasObj = (from x in db.sub_produtos_materia_primas
+                                                                  where x.sub_produtos_id == codSubProduto && x.calculo == "polistein"
+                                                                  select x).FirstOrDefault();
+                                int codMateriaPrimaPolistein =  Convert.ToInt32(sub_produtos_materia_primasObj.materia_primas_id);
+                                consumos  consumosObj = new consumos();
+                                consumosObj = (from x in db.consumos 
+                                               where x.materia_primas_id == codMateriaPrimaPolistein
+                                               select x).FirstOrDefault();
+                                decimal polisteinQuantitadeDecimal = Convert.ToDecimal(consumosObj.quantidade) ;
+                                if(( s == 1) && ( i == 1)){
+                                   quantidadeLarguraDecimal = (Convert.ToDecimal(largura_acabada)/1000 )* (Convert.ToDecimal(espessura_acabada)/1000*2)*polisteinQuantitadeDecimal*2 ;	
+						
+                                }else if(( s == 1) || ( i == 1))
+						        {
+							        quantidadeLarguraDecimal= ((Convert.ToDecimal(largura_acabada)/1000 ) * (Convert.ToDecimal(espessura_acabada)/1000))* polisteinQuantitadeDecimal;
+						        }
+                                if(( d == 1) && ( e == 1)){
+                                    quantidadeComprimentoDecimal = (((Convert.ToDecimal(comprimento_acabada)/1000) * (Convert.ToDecimal(espessura_acabada)/1000))*2) * polisteinQuantitadeDecimal*2;	
+						
+                                }else if(( d == 1) || ( e == 1))
+						        {
+									    quantidadeComprimentoDecimal = ((Convert.ToDecimal(comprimento_acabada)/1000) * (Convert.ToDecimal(espessura_acabada)/1000))* polisteinQuantitadeDecimal;
+									    //echo $quantidadeComprimento;	
+						        }
+							    if(( f == 1) && ( v == 1))
+							    {
+									    quantidadeAreaDecimal = (((Convert.ToDecimal(comprimento_acabada)/1000) * (Convert.ToDecimal(largura_acabada)/1000))*2) * (polisteinQuantitadeDecimal * 2);	
+							    }else if(( f == 1) || ( v == 1))
+							    {
+									    quantidadeAreaDecimal = ((Convert.ToDecimal(comprimento_acabada)/1000) * (Convert.ToDecimal(largura_acabada)/1000)) * (polisteinQuantitadeDecimal);
+							    }	
+							
+							    total = ((quantidadeComprimentoDecimal + quantidadeLarguraDecimal + quantidadeAreaDecimal)*Convert.ToDecimal(quantidade));
+                            }else if( op == "cola_contato"){
+
+                                consumos consumosObj = new consumos();
+                                int materiia_primas_id =  Convert.ToInt32(sub_produtos_materia_primasObj.materia_primas_id);
+                                consumosObj = (from x in db.consumos
+                                               where x.materia_primas_id == materiia_primas_id
+                                               select x).FirstOrDefault();
+                                total = Convert.ToDecimal(area)* Convert.ToDecimal(consumosObj.quantidade);
+                            }else{
+                            }
+                            int materiaPrimasId = Convert.ToInt32(sub_produtos_materia_primasObj.materia_primas_id);
+                            int subprodutosId = sub_produtos_materia_primasObj.sub_produtos_id;
+                            var query1 =
+                                from ord in db.sub_produtos_materia_primas
+                                where ord.materia_primas_id == materiaPrimasId && ord.sub_produtos_id == subprodutosId
+                                select ord;
+
+
+                            // Execute the query, and change the column values 
+                            // you want to change. 
+                            double totalMateria = Convert.ToDouble(total);
+                            foreach (sub_produtos_materia_primas ord in query1)
+                            {
+                                ord.quantidade = totalMateria;
+                       
+                            }
+
+                            // Submit the changes to the database. 
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (Exception e)
+                            {
+                           
+                            }
+                           break;
+                       }
+                case "apagar":
+                    {
+                        int idInt = Convert.ToInt32(id);
+                        var deleteOrderDetails =
+                            from details in db.sub_produtos
+                            where details.id == idInt
+                            select details;
+
+                        foreach (var detail in deleteOrderDetails)
+                        {
+                            db.sub_produtos.Remove(detail);
+                        }
+
+                        try
+                        {
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            // Provide for exceptions.
+                        }
+                    
+                    }
+                    break;
+                case "default":
+                    {
+                        
+                        break;
+                    }
+                  
 
             }
             
@@ -583,12 +796,40 @@ namespace school.Controllers
 
             return smkAccessory;
         }
-        public ActionResult editSubProdus() {
+        public ActionResult editSubProdus(int id, int modelId)
+        {
 
+
+            sub_produtos sub_produtosObj = new sub_produtos();
             
-            
-            
-            return View();
+            sub_produtosObj =  (from x in db.sub_produtos 
+                             join p in db.categoria_sub_produtos on x.categoria_sub_produtos_id equals p.id
+                             select x).FirstOrDefault();
+
+            addSubProductView addSubProductViewObj = new addSubProductView();
+
+
+            int codsmkInt = Convert.ToInt32(modelId);
+
+            smk_itens smk_itensObj = new smk_itens();
+
+
+            smk_itensObj = (from x in db.smk_itens
+                            where x.id == codsmkInt
+                            select x
+                            ).FirstOrDefault();
+
+            List<categoria_sub_produtos> categoria_sub_produtosArr = new List<categoria_sub_produtos>();
+            categoria_sub_produtosArr = (from x in db.categoria_sub_produtos
+                                         select x).ToList();
+
+            addSubProductViewObj.categoria_sub_produtosArr = categoria_sub_produtosArr;
+            addSubProductViewObj.smk_itensObj = smk_itensObj;
+            addSubProductViewObj.sub_produtosObj = sub_produtosObj;
+            addSubProductViewObj.id = id;
+            addSubProductViewObj.codigoSmk = modelId;
+
+            return View(addSubProductViewObj);
         }
         public List<smkAccessory> getSmkAccessory1(int id)
         {

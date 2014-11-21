@@ -14,6 +14,10 @@
 td {
     border: none !important;
 }
+.input-xxlarge
+{
+    width:500px;
+    }
 </style>
 
 <script type="text/ecmascript">
@@ -22,19 +26,19 @@ td {
         var conc = '#descricao_produto' + y;
         $.ajax
 		({
-		    method: "get",
-		    url: window.location.pathname + "/Home/login",
+		    method: "post",
+		    url: "/reportCompras/buscaItem",
 		    data: "memo=" + x + "&op=busca_memo",
 		    beforeSend: function () {
 		        $("#descricao_item").html("Pesquisando...");
 		    },
 		    success: function (conteudo) {
-		        if (conteudo == 0) {
+		        if (conteudo.conteudo == 0) {
 		            alert('Conta memo não existente');
 		            $(conc).val("Digite um código válido.");
 		        }
 		        else {
-		            $(conc).val(conteudo);
+		            $(conc).val(conteudo.conteudo);
 		        }
 		    }
 		})
@@ -46,7 +50,7 @@ td {
         x++;
         $(input).parent().append
         (
-            '<label for="memo' + x + '"><a href="javascript:addMemo(' + x + ');" title="Adicionar outro memo."><i class="icon-plus-sign"></i></a><input type="input" name="memo" id="memo' + x + '" value="" class="input-small"></label>'
+            '<label for="memo' + x + '"><a href="javascript:addMemo(' + x + ');" title="Adicionar outro memo."><i class="icon-plus-sign"></i></a><input type="input" name="memo" id="memo' + x + '" value="" class="input-small"><input type="input" name="descricao_produto[]" id="descricao_produto' + x + '" value="" class="input-xxlarge" readonly="readonly"></label>'
         );
     }
 </script>
@@ -146,7 +150,7 @@ td {
 						        <div class="portlet-body">
 							       <div class="table-toolbar" style = "display: inline-block;">
                                         
-                                            <form name="form1" method="post" action="@(Request.ApplicationPath + "/reportCompras/reportComprasPdf")" target="_blank">
+                                            <form name="form1" method="post" action="@( "/reportCompras/reportComprasPdf")" target="_blank">
                                             <table id="example" width="100%" border="0" class="table">
                                                 <tbody>
                                                 <tr>
@@ -162,7 +166,7 @@ td {
                                                 <tfoot>
                                                 <tr>
                                                       <td></td>
-                                                      <td><input type="submit" name="button" id="button" value="Consultar" class="btn"></td>
+                                                      <td><input type="submit" name="button" id="button" value="Consultar" class="btn red"></td>
                                                     </tr>
                                                     </tfoot>
                                             </table>

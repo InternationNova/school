@@ -1,0 +1,56 @@
+﻿      @model school.Classes.reportComprasPdf
+ <style type="text/css">
+    *{
+	    font-size:10px;
+    }
+</style>
+        <table id="example" width="1024" border="0" class="table">
+            <thead>
+              <tr>
+                <th colspan="4"><h2>Relatório de compras </h2></th>
+              </tr>
+              <tr>
+              	<th>&nbsp;</th>
+                <th colspan="3">Matéria Prima</th>
+                <th>Produto</th>
+              </tr>
+              <tr>
+                <th>Conta MEMO</th>
+                <th>Descrição</th>
+                <th>UNID</th>
+                <th>Qtd.</th>
+                <th>Descrição</th>
+              </tr>
+             </thead>
+            <tbody>
+                    @foreach (var item in Model.reportComprasFirst)
+                    { 
+                         <tr>
+                    	    <td>@item.memo</td>
+                            <td>@item.codigo_smk</td>
+                            <td>@item.unidade</td>
+                            <td>@item.quantidade</td>
+                            <td><div align="left">@item.codigo_smk1</div></td>
+                  	    </tr>
+                    
+                   
+                    }
+                    @foreach (var item in Model.reportComprasSecond)
+                    {
+                       <tr>
+                    	    <td>@item.memo</td>
+                            <td>@item.codigo_smk</td>
+                            <td>@item.descricao</td>
+                            <td>@item.unidade</td>
+                            <td>@item.codigo_smk1</td>
+                  	    </tr>
+                   }
+            
+			             
+            </tbody>
+            <tfoot>
+            	<tr>
+                	
+                </tr>
+                </tfoot>
+        </table>

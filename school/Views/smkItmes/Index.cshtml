@@ -87,7 +87,7 @@
 					<div class="portlet box grey-cascade">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-globe"></i>SMK Ítens Table
+								<i class="fa fa-globe"></i>SMK Ítens
 							</div>
 							<div class="tools" style = "display : none;">
 								<a href="javascript:;" class="collapse">
@@ -133,9 +133,10 @@
                                             @Html.DisplayFor(modelItem => item.descricao)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Alterar", "Edit", new { id = item.id }) 
-                                            @Html.ActionLink("Visualizar", "Details", new { id = item.id }) 
-                                            @Html.ActionLink("Excluir", "Delete", new { id = item.id })
+                                            <a class = "btn blue" href="/smkItmes/Edit/@item.id">Alterar</a> 
+                                            <a class = "btn red" href="/smkItmes/Details/@item.id">Visualizar</a> 
+                                            <a class = "btn yellow" href="/smkItmes/Delete/@item.id">Excluir</a>
+                                          
                                         </td>
                                     </tr>
                                     }

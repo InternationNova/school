@@ -46,53 +46,34 @@
         $("#codigoOpe").hide();
     }
 
-    function buscaItem(x, y) {
-        var conc = '#produto' + y;
-        $.ajax(
+   function buscaItem(x,y)
+	{
+		var conc = '#produto'+y;
+		$.ajax(
 		  {
-		      method: "get",
-		      url: "view/relatorios/produtos/buscaItem.php",
-		      data: "cod_smk=" + x + "&op=item_smk",
-		      beforeSend: function () {
-		          $("#descricao_item").html("Pesquisando...");
-		      },
+			method: "post",
+			url: "/reportProdutos/buscaItem",
+			data: "cod_smk="+x+"&op=item_smk",
+			beforeSend: function(){
+			  $("#descricao_item").html("Pesquisando...");
+			},
 		      success: function (conteudo) {
-		          if (conteudo == 0) {
+		          if (conteudo.conteudo == "0") {
 		              alert("Não foi encontrado ítem com este código.");
 		              $('#codigo_smk').val("");
-		              $('#codigo_smk').focus();
-		              $(conc).val("Digite um código válido.");
+					  $('#codigo_smk').focus();
+					  $(conc).val("Digite um código válido.");
 		          } else {
-		              $(conc).val(conteudo);
+			    $(conc).val(conteudo.conteudo);
+		              
 		          }
 		      }
 		  }
 		);
     };
+    
 
-    function buscaItemIndividual(x) {
-        if ($('#codigo_individual').is(":empty"))
-            $.ajax(
-		  {
-		      method: "get",
-		      url: "view/relatorios/produtos/buscaItem.php",
-		      data: "cod_smk=" + x + "&op=item_smk",
-		      beforeSend: function () {
-		          $("#descricao_item").html("Pesquisando...");
-		      },
-		      success: function (conteudo) {
-		          if (conteudo == 0) {
-		              alert("Não foi encontrado ítem com este código.");
-		              $('#codigo_individual').val("");
-		              $('#codigo_individual').focus();
-		              $('#produto_individual').val("Digite um código válido.");
-		          } else {
-		              $('#produto_individual').val(conteudo);
-		          }
-		      }
-		  }
-		);
-    };
+   
 
     function addProduto(x) {
         var input = '#codigo_smk' + x;
@@ -116,6 +97,9 @@
         $(input).load("/reportProdutos/getEscolas");
     }
 </script>
+<style>
+    .input-xxlarge{width:500px;}
+</style>
     @{
         Layout = "~/Views/Shared/_Layout.cshtml";
     
@@ -225,7 +209,7 @@
                                                 <tr>
                                                   <td nowrap="nowrap" width="85">Situação:</td>
                                                   <td width="942"><label for="producao_situacao_id"></label>
-                                                       <select name="listbox" id="listbox" name="producao_situacao_id">
+                                                       <select id="listbox" name="producao_situacao_id">
                                                             @foreach (var item in Model.producao_situacoes)
                                                                    {
                                                                          <option value="@item.id">
@@ -237,9 +221,9 @@
                                                 </tr>
                                                 <tr>
                                                   <td>Escola:</td>
-                                                  <td><label for="escolas_id">
+                                                  <td><label for="escolas_id" >
 				                                     <a href="javascript:addEscola(0);" title="Adicionar outra escola."><i class="icon-plus-sign"></i></a>
-				                                     <select name="listbox" id="escolas_id0" class="span5" name = "escolas_id">
+				                                     <select id="escolas_id0" class="span5" name = "escolas_id">
                                                             @foreach (var item in Model.escolas)
                                                                    {
                                                                          <option value="@item.id">
@@ -254,7 +238,7 @@
                                                 <tr>
                                                   <td nowrap="nowrap">Cod. SMK:  
                                                   </td>
-                                                  <td nowrap="nowrap">
+                                                  <td nowrap="nowrap" width="942">
                                                   <label for="codigo_smk">
                                                                 <a href="javascript:addProduto(0);" title="Adicionar outro produto."><i class="icon-plus-sign"></i></a>
                                                                 <input type="input" name="codigo_smk" id="codigo_smk0" value="" onchange="buscaItem(this.value,0);" class="input-small">
@@ -266,7 +250,7 @@
                                                     <tr>
                                                           <td></td>
                                                           <td><!--<input type="button" name="btnConsulta" id="btnConsulta" value="Consultar" class="btn">-->
-                                                            <input type="submit" name="geraPdf" id="geraPdf" value="Consultar" class="btn">
+                                                            <input type="submit" name="geraPdf" id="geraPdf" value="Consultar" class="btn red">
                                                           </td>
                                                      </tr>
                                                </tfoot>

@@ -49,5 +49,7 @@ namespace school.Models
         public DbSet<sub_produtos_materia_primas> sub_produtos_materia_primas { get; set; }
 
         public DbSet<acessorios> acessorios { get; set; }
+
+        public DbSet<ope_itens_producao_situacoes> ope_itens_producao_situacoes { get; set; }
     }
 }

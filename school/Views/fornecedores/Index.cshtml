@@ -145,11 +145,10 @@
                                                 @Html.DisplayFor(modelItem => item.email)
                                             </td>
        
-                                            <td>
-                                                @Html.ActionLink("Alterar", "Edit", new { id = item.id }) 
-                                                @Html.ActionLink("Visualizar", "Details", new { id = item.id })
-                                                @Html.ActionLink("Excluir", "Delete", new { id = item.id })
-                                            </td>
+                                            <td><a class = "btn blue" href="/fornecedores/Edit/@item.id">Alterar</a> </td>
+                                            <td><a class = "btn red" href="/fornecedores/Details/@item.id">Visualizar</a></td>
+                                            <td><a class = "btn yellow" href="/fornecedores/Delete/@item.id">Excluir</a></td>
+                                           
                                         </tr>
                                     }
                                 </tbody>

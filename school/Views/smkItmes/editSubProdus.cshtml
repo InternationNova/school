@@ -1,4 +1,6 @@
-﻿@{
+﻿
+@model school.Classes.addSubProductView
+@{
     ViewBag.Title = "Details";
 }
 @{
@@ -50,107 +52,170 @@
     }
 </script>
 
-<?php 
-	$principal = new Principal();
-	$mySql = $principal->meuSql("select * FROM sub_produtos sp
-									JOIN categoria_sub_produtos csp ON csp.id = sp.categoria_sub_produtos_id
-									WHERE sp.id=".$_REQUEST['id']."");
+<div class="theme-panel hidden-xs hidden-sm">
+				<div class="toggler">
+				</div>
+				<div class="toggler-close">
+				</div>
+				<div class="theme-options">
+					
+					<div class="theme-option">
+						<span>
+						Layout </span>
+						<select class="layout-option form-control input-small">
+							<option value="fluid" selected="selected">Fluid</option>
+							<option value="boxed">Boxed</option>
+						</select>
+					</div>
+					
+					
+					<div class="theme-option">
+						<span>
+						Sidebar Position </span>
+						<select class="sidebar-pos-option form-control input-small">
+							<option value="left" selected="selected">Left</option>
+							<option value="right">Right</option>
+						</select>
+					</div>
+					<div class="theme-option">
+						<span>
+						Footer </span>
+						<select class="page-footer-option form-control input-small">
+							<option value="fixed">Fixed</option>
+							<option value="default" selected="selected">Default</option>
+						</select>
+					</div>
+				</div>
+    </div>
+    <div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+					<h3 class="page-title">
+					Alterar Sub Produto 
+					</h3>
+					<ul class="page-breadcrumb breadcrumb" >
+						<li class="btn-group"  style = "display: none;">
+							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+							<span>Actions</span><i class="fa fa-angle-down"></i>
+							</button>
+							
+						</li>
+						<li>
+							<i class="fa fa-home"></i>
+							<a href="">Sub Produto </a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>
+							<a href="#">Alterar</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						
+					</ul>
+					<!-- END PAGE TITLE & BREADCRUMB-->
+				</div>
+    </div>
+    <div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN EXAMPLE TABLE PORTLET-->
+				        <div class="portlet box grey-cascade">
+						        <div class="portlet-title">
+							        <div class="caption">
+								        <i class="fa fa-globe"></i>Sub Produto
+							        </div>
+							        
+						        </div>
+						        <div class="portlet-body" style ="overflow-x: scroll;">
 
-    while ($dados = mysql_fetch_array($mySql))
-        {
-?>
 
-<h2 align="center">Alterar Sub Produto</h2>
-<form action="?url=control/sub_produtos_controller.php" method="post" name="form1" id="form1">
-<input name="acao" id="acao" type="hidden" value="editar" />
-    <input name="id" id="id" type="hidden" value="<?php echo $_REQUEST["id"]?>"/>
-<table border="0" align="center" class="table table-striped table-bordered table-hover table-condensed" id="tblDetalhes">
-<thead>
-<tr>
-	<th><input type="hidden" name="smk_itens_id" value="<?php echo $dados['smk_itens_id'];?>" />
-	<?php
-		$principal = new Principal();
-		$mySqlItem = $principal->meuSql("SELECT codigo_smk,descricao FROM `smk_itens` WHERE `id` = ".$_GET['codSmk']."");
-		$dadosItem = mysql_fetch_array($mySqlItem);
-		echo $dadosItem['codigo_smk']." - ".$dadosItem['descricao'];
-	  ?>
-	</th>
-    <th colspan="3"><div class="text-center">Acabado(mm)</div></th>
-    <th colspan="3"><div class="text-center">Bruto(mm)</div></th>
-    <th colspan="3">&nbsp;</th>
-</tr>
-<tr>
-	<th>Sub Produto</th>
-    <th>Comprimento</th>
-    <th>Largura</th>
-    <th>Espessura</th>
-    <th>Comprimento</th>
-    <th>Largura</th>
-    <th>Espessura</th>
-    <th width="100">Quantidade</th>
-    <th width="100">脕rea(m)</th>
-    <th width="110">Perda(%)</th>
-</tr>
-<tr>
-  <td><label for="descricao"></label>
-    <input type="text" name="descricao" id="descricao" class="input-xxlarge" value="<?php echo $dados[1];?>"/></td>
-  <td><label for="comprimento_acabada"></label>
-    <input type="text" name="comprimento_acabada" id="comprimento_acabada" class="input-small" value="<?php echo $dados['comprimento_acabada'];?>" /></td>
-  <td><label for="largura_acabada"></label>
-    <input type="text" name="largura_acabada" id="largura_acabada" class="input-small" value="<?php echo $dados['largura_acabada'];?>"/></td>
-  <td><label for="espessura_acabada"></label>
-    <input type="text" name="espessura_acabada" id="espessura_acabada" class="input-small" value="<?php echo $dados['espessura_acabada'];?>"/></td>
-  <td><label for="comprimento_bruto"></label>
-    <input type="text" name="comprimento_bruto" id="comprimento_bruto" class="input-small" value="<?php echo $dados['comprimento_bruto'];?>"/></td>
-  <td><label for="largura_bruto"></label>
-    <input type="text" name="largura_bruto" id="largura_bruto" class="input-small" value="<?php echo $dados['largura_bruto'];?>"/></td>
-  <td><label for="espessura_bruto"></label>
-    <input type="text" name="espessura_bruto" id="espessura_bruto" class="input-small" value="<?php echo $dados['espessura_bruto'];?>"/></td>
-    <td><label for="quantidade"></label>
-    <input type="text" name="quantidade" id="quantidade" class="input-small" value="<?php echo $dados['quantidade'];?>"/></td>
-  <td><label for="area"></label>
-    <input type="text" name="area" id="area" class="input-small" value="<?php echo $dados['area'];?>" readonly="readonly"/></td>
-  <td><label for="perda"></label>
-    <input type="text" name="perda" id="perda" class="input-small" value="<?php echo $dados['perda'];?>"/></td>
+                                    <form action="/smkItmes/AdicionarSub" method="post" name="form1" id="form1">
+                                    <input name="acao" id="acao" type="hidden" value="editar" />
+                                    <input name="id" id="id" type="hidden" value="@Model.id"/>
+                                    <table border="0" align="center" class="table table-striped table-bordered table-hover table-condensed" id="tblDetalhes">
+                                    <thead>
+                                    <tr>
+	                                    <th><input type="hidden" name="smk_itens_id" value="@Model.sub_produtosObj.smk_itens_id" />
+	                                        @(Model.smk_itensObj.codigo_smk + "-" + Model.smk_itensObj.descricao)
+                                       </th>
+                                        <th colspan="3"><div class="text-center">Acabado(mm)</div></th>
+                                        <th colspan="3"><div class="text-center">Bruto(mm)</div></th>
+                                        <th colspan="3">&nbsp;</th>
+                                    </tr>
+                                    <tr>
+	                                    <th>Sub Produto</th>
+                                        <th>Comprimento</th>
+                                        <th>Largura</th>
+                                        <th>Espessura</th>
+                                        <th>Comprimento</th>
+                                        <th>Largura</th>
+                                        <th>Espessura</th>
+                                        <th width="100">Quantidade</th>
+                                        <th width="100">Área(m)</th>
+                                        <th width="110">Perda(%)</th>
+                                    </tr>
+                                    <tr>
+                                      <td><label for="descricao"></label>
+                                        <input type="text" name="descricao" id="descricao" class="input-xxlarge" value="@Model.sub_produtosObj.descricao"/></td>
+                                      <td><label for="comprimento_acabada"></label>
+                                        <input type="text" name="comprimento_acabada" id="comprimento_acabada" class="input-small" value="@Model.sub_produtosObj.comprimento_acabada" /></td>
+                                      <td><label for="largura_acabada"></label>
+                                        <input type="text" name="largura_acabada" id="largura_acabada" class="input-small" value="@Model.sub_produtosObj.largura_acabada"/></td>
+                                      <td><label for="espessura_acabada"></label>
+                                        <input type="text" name="espessura_acabada" id="espessura_acabada" class="input-small" value="@Model.sub_produtosObj.espessura_acabada"/></td>
+                                      <td><label for="comprimento_bruto"></label>
+                                        <input type="text" name="comprimento_bruto" id="comprimento_bruto" class="input-small" value="@Model.sub_produtosObj.comprimento_bruto"/></td>
+                                      <td><label for="largura_bruto"></label>
+                                        <input type="text" name="largura_bruto" id="largura_bruto" class="input-small" value="@Model.sub_produtosObj.largura_bruto"/></td>
+                                      <td><label for="espessura_bruto"></label>
+                                        <input type="text" name="espessura_bruto" id="espessura_bruto" class="input-small" value="@Model.sub_produtosObj.espessura_bruto"/></td>
+                                        <td><label for="quantidade"></label>
+                                        <input type="text" name="quantidade" id="quantidade" class="input-small" value="@Model.sub_produtosObj.quantidade"/></td>
+                                      <td><label for="area"></label>
+                                        <input type="text" name="area" id="area" class="input-small" value="@Model.sub_produtosObj.area" readonly="readonly"/></td>
+                                      <td><label for="perda"></label>
+                                        <input type="text" name="perda" id="perda" class="input-small" value="@Model.sub_produtosObj.perda"/></td>
 
-</tr>
-<tr>
-  <td>
-    <label for="categoria_sub_produtos_id"></label>
-    <strong>Categoria:</strong><br /> 
-    <select name="categoria_sub_produtos_id" size="1" id="categoria_sub_produtos_id">
-      <option value="<?php echo $dados[13];?>" selected="selected"><?php echo $dados['descricao'];?></option>
-      <?php
-				foreach($principal->retornaCategoria_sub_produtos() as $dados)
-				{
-              ?>
-      <option value="<?php echo $dados->getId(); ?>"><?php echo $dados->getDescricao(); ?></option>
-      <?php
-               }?>
-      </select>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <label for="categoria_sub_produtos_id"></label>
+                                        <strong>Categoria:</strong><br /> 
+                                        <select name="categoria_sub_produtos_id" size="1" id="categoria_sub_produtos_id">
+                                            <option value="0" selected="selected">Selecione</option>
+                                          
+                                              @foreach (var item in Model.categoria_sub_produtosArr)
+                                              {
+                                                  <option value="@item.id">@item.descricao</option>
+                                      
+                                          
+                                              }
+				                    
+                                          </select>
       
-      <label for="calculo"></label>
-    <strong>Tipo de Calculo:</strong><br /> 
-    <select name="tipo_calculo" size="1" id="tipo_calculo">
-      <option value="0" selected="selected">Selecione</option>
-      <option value="madeira">Madeira</option>
-      <option value="laminado/mdf">Laminado/MDF</option>
-     </select>
-  </td>
-  <td colspan="9"><strong>C谩lculo da 谩rea: </strong>
-<label>
-          <input type="radio" name="calculo_area" value="acabada" id="calculo_area_0" onclick="calculaArea(1);"/>
-          Acabada</label>
-        <label>
-          <input type="radio" name="calculo_area" value="bruta" id="calculo_area_1" onclick="calculaArea(2);" />
-          Bruta</label></td>
-  </tr>
-<tr>
-  <th colspan="10"><div class="text-center">
-	<input type="submit" id="btnAlterar" value="Alterar" class="btn" />
-    <input type="button" value="Cancelar" onclick="javascript: window.history.back(-1)" class="btn" /></div></th>
-</tr>
-</thead>
-</table>
-</form>
-<?php 	} ?>
+                                        <label for="calculo"></label>
+                                        <strong>Tipo de Calculo:</strong><br /> 
+                                        <select name="tipo_calculo" size="1" id="tipo_calculo">
+                                          <option value="0" selected="selected">Selecione</option>
+                                          <option value="madeira">Madeira</option>
+                                          <option value="laminado/mdf">Laminado/MDF</option>
+                                         </select>
+                                      </td>
+                                      <td colspan="9"><strong>Cálculo da área: </strong>
+                                    <label>
+                                              <input type="radio" name="calculo_area" value="acabada" id="calculo_area_0" onclick="calculaArea(1);"/>
+                                              Acabada</label>
+                                            <label>
+                                              <input type="radio" name="calculo_area" value="bruta" id="calculo_area_1" onclick="calculaArea(2);" />
+                                              Bruta</label></td>
+                                      </tr>
+                                    <tr>
+                                      <th colspan="10"><div class="text-center">
+	                                    <input type="submit" id="btnAlterar" value="Alterar" class="btn red" />
+                                        <input type="button" value="Cancelar" onclick="javascript: window.history.back(-1)" class="btn blue " /></div></th>
+                                    </tr>
+                                    </thead>
+                                    </table>
+                                    </form>
+                                <?php 	} ?>
+                            </div>
+                        </div>
+                    </div>

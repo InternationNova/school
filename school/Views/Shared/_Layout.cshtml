@@ -32,7 +32,7 @@
   <link href="@Url.Content("~/Content/assets/admin/layout/css/layout.css")" rel="stylesheet" type="text/css"/>
   <link  href="@Url.Content("~/Content/assets/admin/layout/css/themes/default.css")" rel="stylesheet" type="text/css"/>
   <link href="@Url.Content("~/Content/assets/admin/layout/css/custom.css" )"rel="stylesheet" type="text/css"/>
-   <link href="@Url.Content("~/Content/style.css" )"rel="stylesheet" type="text/css"/>
+  <link href="@Url.Content("~/Content/style.css" )"rel="stylesheet" type="text/css"/>
   <!-- END THEME STYLES -->
   <link rel="shortcut icon" href="favicon.ico"/>
 
@@ -57,8 +57,8 @@
    
     <!-- BEGIN LOGO -->
     <div class="page-logo">
-      <a href="index.html">
-        <img src="@Url.Content("~/Content/assets/admin/layout/img/logo.png")" alt="logo" class="logo-default" style="height:35px;margin-top: 6px;"/>
+      <a href="">
+        <img src="@Url.Content("~/Content/img/logo.png")" alt="logo" class="logo-default" style="height:35px;margin-top: 6px;"/>
       </a>
       <div class="menu-toggler sidebar-toggler hide">
         <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -171,7 +171,7 @@
           </li>
           <li>
             <a href="javascript:;">
-              <i class="icon-home">
+              <i class="fa fa-dashboard" style="color: white;">
               </i>
               <span class="title">
                 Gerenciadores
@@ -182,85 +182,85 @@
             <ul class="sub-menu">
               <li>
                 <a href="@(subDirect + "/escolas")">
-                  <i class="icon-bar-chart">
+                  <i class="fa fa-building" style="color: white;">
                   </i>
                   Escolas
                 </a>
               </li>
               <li>
                 <a href= "@(subDirect + "/ope")">
-                  <i class="icon-bulb">
-                  </i>
+                 <i class="icon-pointer" style="color: white;">
+                 </i>
                   OPE's
                 </a>
               </li>
               <li>
                 <a href= "@(subDirect + "/gastos/Create")">
-                  <i class="icon-graph">
+                  <i class="fa fa-bar-chart-o" style="color: white;">
                   </i>
                   Lanç. Gastos
                 </a>
               </li>
 			   <li>
                 <a href= "@(subDirect + "/smkItmes")">
-                  <i class="icon-basket">
-                  </i>
+                 <i class="fa fa-pencil-square-o" style="color: white;">
+                </i>
                   SMK Ítens
                 </a>
               </li>
 			   <li>
                 <a href= "@(subDirect + "/producaoSituacoes")">
-                  <i class="icon-pencil">
-                  </i>
+                 <i class="icon-home" style="color: white;">
+                 </i>
                   Situações da Produção
                 </a>
               </li>
 			   <li>
                 <a href= "@(subDirect + "/fornecedores")">
-                  <i class="icon-graph">
-                  </i>
+                    <i class="fa fa-dashboard" style="color: white;">
+                    </i>
                   Fornecedores
                 </a>
               </li>
 			   <li>
                 <a href= "@(subDirect+ "/materiaPrima")">
-                  <i class="icon-graph">
-                  </i>
+                  <i class="fa fa-building" style="color: white;">
+                    </i>
                   Matéria Prima
                 </a>
               </li>
                <li>
                 <a href= "@(subDirect + "/transportadoras")">
-                  <i class="icon-graph">
-                  </i>
+                  <i class="fa fa-building" style="color: white;">
+                    </i>
                   Transportadoras
                 </a>
               </li>
                <li>
                 <a href= "@(subDirect + "/categoriaMateriaPrimas")">
-                  <i class="icon-graph">
-                  </i>
+                 <i class="icon-pointer" style="color: white;">
+                    </i>
                   Categ. Materia Prima
                 </a>
               </li>
               <li>
                 <a href= "@(subDirect + "/categoriaSubProdutos")">
-                  <i class="icon-rocket">
-                  </i>
+                  <i class="fa fa-pencil-square-o" style="color: white;">
+                </i>
                   Categ. Sub Produtos
                 </a>
               </li>
               <li>
                 <a href= "@(subDirect + "/consumos")">
-                  <i class="icon-graph">
-                  </i>
+                   <i class="fa fa-bar-chart-o" style="color: white;">
+                   </i>
                     Consumo
                 </a>
               </li>  
               <li>
                 <a href= "@(subDirect + "/perda")">
-                  <i class="icon-rocket">
-                  </i>
+                  <i class="fa fa-bar-chart-o" style="color: white;">
+                   </i>
                     Perda
                 </a>
               </li>    
@@ -268,7 +268,7 @@
           </li>
           <li>
             <a href="javascript:;">
-              <i class="icon-basket">
+              <i class="icon-home" style="color: white;">
               </i>
               <span class="title">
                 Relatorios
@@ -279,30 +279,26 @@
             <ul class="sub-menu">
               <li>
                 <a href="@(subDirect + "/reportPrima")">
-                  <i class="icon-home">
-                  </i>
+                  <i class="fa fa-database" style="color: white;"></i>
                   Mat. Primas
                 </a>
               </li>
               <li>
                 <a href="@(subDirect + "/reportOpe")">
-                  <i class="icon-basket">
-                  </i>
+                  <i class="fa fa-signal" style="color: white;"></i>
                   OPEs
                 </a>
               </li>
               <li>
                 <a href="@(subDirect + "/reportProdutos")">
-                  <i class="icon-tag">
-                  </i>
+                 <i class="fa fa-database" style="color: white;"></i>
                   Produtos
                 </a>
               </li>
              
               <li>
                 <a href="@(subDirect + "/reportCompras")">
-                  <i class="icon-pencil">
-                  </i>
+                 <i class="fa fa-signal" style="color: white;"></i>
                   Compras
                 </a>
               </li>
@@ -310,7 +306,7 @@
           </li>
           <li>
             <a href="javascript:;">
-              <i class="icon-rocket">
+             <i class="icon-home" style="color: white;">
               </i>
               <span class="title">
                 Sistema
