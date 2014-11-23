@@ -81,7 +81,7 @@ namespace school.Controllers
 
             estados estados = new estados();
 
-                estados = db.estados.Find(id);
+            estados = db.estados.Find(id);
             estadosNome = estados.nome;
 
             return estadosNome;
@@ -106,6 +106,16 @@ namespace school.Controllers
 
         public ActionResult Create()
         {
+            escolasCreate escolasCreateObj = new escolasCreate();
+            List<estados> estadosArr = new List<estados>();
+
+            estadosArr = db.estados.ToList();
+
+            escolasCreateObj.estadosArr = estadosArr;
+
+            return View(escolasCreateObj);
+            
+            
             return View();
         }
 

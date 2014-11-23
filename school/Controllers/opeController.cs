@@ -498,7 +498,15 @@ namespace school.Controllers
 
         public ActionResult Create()
         {
-            return View();
+
+            opeCreate opeCreateObj = new opeCreate();
+            List<escolas> escoalsArr = new List<escolas>();
+
+            escoalsArr = db.escolas.ToList();
+
+            opeCreateObj.escolasObj = escoalsArr;
+
+            return View(opeCreateObj);
         }
 
         public ActionResult OpeItemEdit(int id, string cod, int idvisualiza) 
@@ -606,7 +614,29 @@ namespace school.Controllers
             if (ModelState.IsValid)
             {
                 db.Opes.Add(ope);
-                db.SaveChanges();
+
+                ope ord = new ope
+                {
+                    numero_processo = ope.numero_processo,
+                    numero_projeto = ope.numero_projeto,
+                    data_abertura = ope.data_abertura,
+                    data_chegada = ope.data_chegada,
+                    observacao = ope.observacao,
+                    escolas_id = ope.escolas_id
+
+                };
+                // Add the new object to the Orders collection.
+                db.Opes.Add(ord);
+
+                // Submit the change to the database. 
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception e) { 
+                
+                }
+             
                 return RedirectToAction("Index");
             }
 

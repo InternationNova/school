@@ -9,7 +9,7 @@ namespace school.Models
 {
     public class ope
     {
-
+        [Key]
         public int id { get; set; }
         public string numero_processo { get; set; }
         public string numero_projeto { get; set; }

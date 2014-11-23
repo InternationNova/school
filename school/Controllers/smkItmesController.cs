@@ -387,9 +387,7 @@ namespace school.Controllers
                         break;
 
                     case "editar":
-                            //$principal->Sub_produtos_materia_primas($_POST["id"], $_POST["codSubProduto"], $_POST["materia_primas_id"]);
-                            //$principal->atualizaSub_produtos_materia_primas() == false ? $error = true : $error = false;
-                        break;
+                            break;
 
                     case "apagar":
                             string str_query = @"delete from sub_produtos_materia_primas where sub_produtos_id = @sub_produtos_id
@@ -422,7 +420,48 @@ namespace school.Controllers
             return Json(new { ok = "success" });
 
         }
+       
+        public ActionResult deletaAcessorios(int id , string acao , int idSmkItem) {
 
+            switch (acao)
+            {
+                case "inserir":
+
+
+                    break;
+
+                case "editar":
+                    break;
+
+                case "apagar":
+                    string str_query = @"delete from acessorios where id = @id";
+
+                    using (SqlConnection conn = new SqlConnection(str_connection))
+                    using (SqlCommand cmd = new SqlCommand(str_query, conn))
+                    {
+
+
+                        cmd.Parameters.AddWithValue("@id", id);
+
+                        conn.Open();
+
+
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        conn.Dispose();
+
+
+                        conn.Close();
+                    }
+
+                    break;
+
+                case "default":
+
+                    break;
+            }
+            return Json(new { ok = "success" });
+        }
         
         public ActionResult addSubProduct(string codSmk) {
 
@@ -942,7 +981,27 @@ namespace school.Controllers
             return View(smkaddSubProdutosObj);
         }
 
-        //
+        public ActionResult editAccessory(int id, int idSmkItem) {
+            acessoriosEdit acessoriosEditObj = new acessoriosEdit();
+            
+            acessorios acessoriosObj = new  acessorios();
+            acessoriosEditObj = (from x in db.acessorios
+                             join ma in db.materia_primas on x.materia_primas_id equals ma.id
+                             where x.id == id
+                             select new acessoriosEdit
+                             {
+                                    
+                                    id = x.id,
+                                    smk_itens_id = x.smk_itens_id ,
+                                    materia_primas_id = x.materia_primas_id ,
+                                    quantidade = x.quantidade ,
+                                    descricao = ma.descricao ,
+                                    idSmkItem = idSmkItem
+                                        
+                             } ).FirstOrDefault();
+
+            return View(acessoriosEditObj);
+        }
         // POST: /smkItmes/Create
 
         [HttpPost]
@@ -957,8 +1016,46 @@ namespace school.Controllers
 
             return View(smk_itens);
         }
+        [HttpPost]
+        public ActionResult acessoriosController(string acao , int id, int idSmkItem , double quantidade)
+        {
+            
+             switch (acao){
+            
 
+                case "editar":
+                        
+                       var query =
+                                from ord in db.acessorios
+                                where ord.id == id
+                                select ord;
 
+                            // Execute the query, and change the column values 
+                            // you want to change. 
+                            foreach (acessorios ord in query)
+                            {
+                                ord.quantidade = quantidade;
+                            }
+
+                        // Submit the changes to the database. 
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (Exception e)
+                            {
+                           
+                            }
+   
+                    break;
+                
+
+                case "default":
+                    
+                    break;
+            }
+             return RedirectToAction("Details", new { id = idSmkItem });
+        }
         //
         // GET: /smkItmes/Edit/5
 

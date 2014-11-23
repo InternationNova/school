@@ -1,4 +1,4 @@
-﻿@model school.Models.escolas
+﻿@model school.Models.escolasCreate
 
 @{
     ViewBag.Title = "Create";
@@ -58,22 +58,7 @@
 							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
 							<span>Actions</span><i class="fa fa-angle-down"></i>
 							</button>
-							<ul class="dropdown-menu pull-right" role="menu">
-								<li>
-									<a href="#">Action</a>
-								</li>
-								<li>
-									<a href="#">Another action</a>
-								</li>
-								<li>
-									<a href="#">Something else here</a>
-								</li>
-								<li class="divider">
-								</li>
-								<li>
-									<a href="#">Separated link</a>
-								</li>
-							</ul>
+							
 						</li>
 						<li>
 							<i class="fa fa-home"></i>
@@ -166,11 +151,17 @@
                                             </div>
 
                                             <div class="editor-label">
-                                                @Html.LabelFor(model => model.estados_id)
+                                                Estado:
                                             </div>
                                             <div class="editor-field">
-                                                @Html.EditorFor(model => model.estados_id)
-                                                @Html.ValidationMessageFor(model => model.estados_id)
+                                               <select name="estados_id" size="1" id="estados_id" class ="selectbox">
+                                                    @foreach(var item in Model.estadosArr) { 
+                                                    
+                                                        <option value="@item.id" selected="selected">@item.nome</option>
+                                                    }
+          	                                        
+             
+                                                </select>
                                             </div>
 
                                             <p class = "buttonParam">

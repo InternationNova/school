@@ -1,4 +1,4 @@
-﻿@model school.Models.ope_itens
+﻿@model school.Classes.opeCreate
 
 @{
     ViewBag.Title = "Create";
@@ -118,68 +118,65 @@
                                                 
 
                                                 <div class="editor-label">
-                                                    @Html.LabelFor(model => model.quantidade)
+                                                    Num. Processo:
                                                 </div>
                                                 <div class="editor-field">
-                                                    @Html.EditorFor(model => model.quantidade)
-                                                    @Html.ValidationMessageFor(model => model.quantidade)
+                                                    @Html.EditorFor(model => model.numero_processo)
+                                                    @Html.ValidationMessageFor(model => model.numero_processo)
                                                 </div>
 
                                                 <div class="editor-label">
-                                                    @Html.LabelFor(model => model.previsao_embarque)
+                                                    Nº Projeto: 
                                                 </div>
                                                 <div class="editor-field">
-                                                    @Html.EditorFor(model => model.previsao_embarque)
-                                                    @Html.ValidationMessageFor(model => model.previsao_embarque)
+                                                    @Html.EditorFor(model => model.numero_projeto)
+                                                    @Html.ValidationMessageFor(model => model.numero_projeto)
                                                 </div>
 
                                                 <div class="editor-label">
-                                                    @Html.LabelFor(model => model.valor_unitario)
+                                                   Data abertura: 
                                                 </div>
                                                 <div class="editor-field">
-                                                    @Html.EditorFor(model => model.valor_unitario)
-                                                    @Html.ValidationMessageFor(model => model.valor_unitario)
+                                                    @Html.EditorFor(model => model.data_abertura)
+                                                    @Html.ValidationMessageFor(model => model.data_abertura)
                                                 </div>
 
                                                 <div class="editor-label">
-                                                    @Html.LabelFor(model => model.valor_total)
+                                                    Data Chegada: 
                                                 </div>
                                                 <div class="editor-field">
-                                                    @Html.EditorFor(model => model.valor_total)
-                                                    @Html.ValidationMessageFor(model => model.valor_total)
+                                                    @Html.EditorFor(model => model.data_chegada)
+                                                    @Html.ValidationMessageFor(model => model.data_chegada)
                                                 </div>
 
                                                 <div class="editor-label">
-                                                    @Html.LabelFor(model => model.memo)
+                                                    Observação: 
                                                 </div>
                                                 <div class="editor-field">
-                                                    @Html.EditorFor(model => model.memo)
-                                                    @Html.ValidationMessageFor(model => model.memo)
+                                                    @Html.EditorFor(model => model.observacao)
+                                                    @Html.ValidationMessageFor(model => model.observacao)
                                                 </div>
 
                                                 <div class="editor-label">
-                                                    @Html.LabelFor(model => model.smk_itens_id)
+                                                    Escola:
                                                 </div>
                                                 <div class="editor-field">
-                                                    @Html.EditorFor(model => model.smk_itens_id)
-                                                    @Html.ValidationMessageFor(model => model.smk_itens_id)
+                                                  <select name="escolas_id" size="1" id="escolas_id" >
+          	                                            <option value="0" selected="selected">Selecione</option>
+                                                        @foreach(var item in Model.escolasObj) { 
+                                                            <option value="@item.id">@item.nome</option>
+			                                            }
+                                                                                                         
+                                                  </select>
                                                 </div>
-
-                                                <div class="editor-label">
-                                                    @Html.LabelFor(model => model.opes_id)
-                                                </div>
-                                                <div class="editor-field">
-                                                    @Html.EditorFor(model => model.opes_id)
-                                                    @Html.ValidationMessageFor(model => model.opes_id)
-                                                </div>
-
+                                                
                                                 <p class = "buttonParam">
-                                                    <input type="submit" value="Cadastrar" id="sample_editable_1_new" class="btn green"/>
+                                                    <input type="submit" value="Cadastrar" id="sample_editable_1_new" class="btn red"/>
                                                 </p>
                                             </fieldset>
                                         }
 
-                                        <button id="sample_editable_1_new" class="btn green">
+                                        <button id="sample_editable_1_new" class="btn blue">
                                             @Html.ActionLink("Voltar", "Index")
                                         </button>
                                     </div>

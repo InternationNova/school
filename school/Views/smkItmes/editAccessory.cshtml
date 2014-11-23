@@ -1,12 +1,16 @@
-﻿@model IEnumerable<school.Models.categoria_sub_produtos>
+﻿@model school.Models.acessoriosEdit
 
 @{
     ViewBag.Title = "Index";
 }
+
 @{
-   
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
+<style>
+    td{padding:10px;}
+</style>
 <div class="theme-panel hidden-xs hidden-sm">
 				<div class="toggler">
 				</div>
@@ -46,33 +50,18 @@
 				<div class="col-md-12">
 					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 					<h3 class="page-title">
-					Categoria Sub Produtos 
+					Alterar Acessório
 					</h3>
 					<ul class="page-breadcrumb breadcrumb"> 
 						<li class="btn-group" style = "display : none;">
 							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
 							<span>Actions</span><i class="fa fa-angle-down"></i>
 							</button>
-							<ul class="dropdown-menu pull-right" role="menu">
-								<li>
-									<a href="#">Action</a>
-								</li>
-								<li>
-									<a href="#">Another action</a>
-								</li>
-								<li>
-									<a href="#">Something else here</a>
-								</li>
-								<li class="divider">
-								</li>
-								<li>
-									<a href="#">Separated link</a>
-								</li>
-							</ul>
+							
 						</li>
 						<li>
 							<i class="fa fa-home"></i>
-							<a href="">Categoria Sub Produtos</a>
+							<a href="">Acessório</a>
 							<i class="fa fa-angle-right"></i>
 						</li>
 					
@@ -86,7 +75,7 @@
 					<div class="portlet box grey-cascade">
 						<div class="portlet-title">
 							<div class="caption">
-								<i class="fa fa-globe"></i>Categoria Sub Produtos
+								<i class="fa fa-globe"></i> Alterar Acessório
 							</div>
 							<div class="tools" style = "display : none;">
 								<a href="javascript:;" class="collapse">
@@ -101,35 +90,34 @@
 						</div>
 						<div class="portlet-body">
 							<div class="table-toolbar">
-                                 <div class="btn-group">
-									<a href="/categoriaSubProdutos/Create" class="btn green">Inserir novo</a>
-								</div>
-                            </div>
-                            <table class="table table-striped table-bordered table-hover" id="sample_1">
-                                <thead>
+
+                                    <h2 align="center">Alterar Acessório</h2>
+                                    <form action="/smkItmes/acessoriosController" method="post" name="form1" id="form1">
+                                    <input name="acao" id="acao" type="hidden" value="editar" />
+                                    <input name="id" id="id" type="hidden" value="@Model.id" />
+                                    <input type="hidden" id="idSmkItem" name="idSmkItem" value="@Model.idSmkItem" />
+                                    <input type="hidden" id="calculo" name="calculo" value="acessorio" />
+
+                                    <table border="0" align="center" id="tblDetalhes">
+                                    <thead>
                                     <tr>
-                                        <th>
-                                            descricao
-                                        </th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model) {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.descricao)
-                                            </td>
-                                            <td>
-                                                <a class ="btn blue" href="/categoriaSubProdutos/Edit/@item.id">Alterar</a> 
-                                                <a class ="btn yellow" href="/categoriaSubProdutos/Details/@item.id">Visualizar</a> 
-                                                <a class ="btn red" href="/categoriaSubProdutos/Delete/@item.id">Excluir</a>
-                                             
-                                            </td>
+                                          <td nowrap="nowrap" width="110">Matéria prima:</td>
+                                          <td><span id="descricao_item">@Model.descricao</span></td>
                                         </tr>
-                                    }
-                                </tbody>
-                                </table>
-                            </div>
+                                    <tr>
+                                      <td>
+                                        Quantidade:</td>
+                                      <td><input type="text" name="quantidade" value="@Model.quantidade" class="input-small" id="quantidade" /></td>
+                                    </tr>
+                                    <tr>
+                                      <th colspan="4"><div class="text-center"><input type="submit" value="Cadastrar" class="btn red" />
+                                        <input type="button" value="Cancelar" onclick="javascript: window.history.back(-1)" class="btn blue" /></div></th>
+                                    </tr>
+                                    </thead>
+                                    </table>
+                                    </form>
+
+                                    <?php } ?>
+                             </div>
                         </div>
                     </div>

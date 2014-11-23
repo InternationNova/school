@@ -49,7 +49,16 @@
 
     function deletaAcessorios(x, y) { //id e id history
         if (confirm("Deseja realmente apagar o registro?")) {
-            window.location = "?url=control/acessorios_controller.php&id=" + x + "&acao=apagar&idSmkItem=" + y;
+            $.ajax({
+                method: "post",
+                url: "/smkItmes/deletaAcessorios",
+
+                data: "id="+ x + "&acao=apagar&idSmkItem=" + y ,
+
+                success: function (conteudo) {
+                    location.reload();
+                }
+            })
         }
     }
 
@@ -257,14 +266,14 @@
                                                     <td colspan="4">@Html.DisplayFor(model => item.categoria)</td>
                                                     <td>@Html.DisplayFor(model => item.unidade)</td>
                                                     <td>@Html.DisplayFor(model => item.quantitide)</td>
-                                                    <td colspan="2"><a class = "btn red" href="/smkItmes/editAccessory/@item.id">Alterar</a></td>
-                                                    <td colspan="2"><a class = "btn blue" href="/smkItmes/deleteAccessory/@item.id">Excluir</a></td>
+                                                    <td colspan="2"><a class = "btn red" href="/smkItmes/editAccessory/@item.id?idSmkItem=@Model.id">Alterar</a></td>
+                                                    <td colspan="2"><a class = "btn blue" href="javascript:deletaAcessorios(@item.id , @Model.id )">Excluir</a></td>
                                                     
                                                   </tr>
                                               
                                               }
                                                 
-                                              @foreach (var item in Model.smkAccessory2) 
+                                              @foreach (var item in Model.smkAccessory2)
                                               { 
                                                   <tr>
                                                     <td colspan="4">@Html.DisplayFor(model => item.codigo_smk)</td>
