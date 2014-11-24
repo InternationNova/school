@@ -44,7 +44,7 @@
 <!-- BEGIN LOGIN -->
 <div class="content">
 	<!-- BEGIN LOGIN FORM -->
-	<form class="login-form" action="" method="post">
+	<form class="login-form1" action="" method="post">
 		<h3 class="form-title">Entre com seu usuário e senha</h3>
 		<div class="alert alert-danger display-hide">
 			<button class="close" data-close="alert"></button>
@@ -72,7 +72,7 @@
 			<a  class="btn blue pull-right" onclick="login()">
 			Entrar <i class="m-icon-swapright m-icon-white"></i>
 			</a>
-		</divEntrar
+		</div>
 		
 		<div class="forget-password">
 			<h4> Esqueceu sua senha?</h4>
@@ -86,7 +86,7 @@
 		</div>	
 	</form>
 	
-	<form class="forget-form" action="index.html" method="post">
+	<form class="forget-form1" action="" method="post">
 		<h3>Forget Password ?</h3>
 		<p>
 			 Enter your e-mail address below to reset your password.
@@ -94,61 +94,21 @@
 		<div class="form-group">
 			<div class="input-icon">
 				<i class="fa fa-envelope"></i>
-				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email"/>
+				<input id = "emailAddress" class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email"/>
 			</div>
 		</div>
 		<div class="form-actions">
-			<button type="button" id="back-btn" class="btn">
-			<i class="m-icon-swapleft"></i> Back </button>
-			<button type="submit" class="btn blue pull-right">
+			<button type="button" id="back-btn" class="btn red" onclick ="back()">
+			<i class="m-icon-swapleft"></i>Back</button>
+			<a type="submit" class="btn blue pull-right" onclick = "sendMail()">
 			Submit <i class="m-icon-swapright m-icon-white"></i>
-			</button>
+			</a>
 		</div>
 	</form>
-	<!-- END FORGOT PASSWORD FORM -->
-	<!-- BEGIN REGISTRATION FORM -->
-	<form class="register-form" action="index.html" method="post">
-		<h3>Sign Up</h3>
-		
-		<p>
-			 Enter your account details below:
-		</p>
-		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">Username</label>
-			<div class="input-icon">
-				<i class="fa fa-user"></i>
-				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username"/>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">Password</label>
-			<div class="input-icon">
-				<i class="fa fa-lock"></i>
-				<input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password"/>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">Re-type Your Password</label>
-			<div class="controls">
-				<div class="input-icon">
-					<i class="fa fa-check"></i>
-					<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Re-type Your Password" name="rpassword"/>
-				</div>
-			</div>
-		</div>
-		
-		<div class="form-actions">
-			<button id="register-back-btn" type="button" class="btn">
-			<i class="m-icon-swapleft"></i> Back </button>
-			<button type="submit" id="register-submit-btn" class="btn blue pull-right">
-			Sign Up <i class="m-icon-swapright m-icon-white"></i>
-			</button>
-		</div>
-	</form>
-	<!-- END REGISTRATION FORM -->
+
 </div>
 
-<div class="copyright">
+<div class="copyright" style ="margin:0 auto;">
 	  2014 © SENAI - Controle de OPEs.
 </div>
 
@@ -208,20 +168,88 @@
 
         var username = $("#username").val();
         var password = $("#password").val();
+        var remember = false;
+        if ($(".checker").find('span').hasClass("checked")) {remember = true; }
+
 
         $.ajax({
-            url:  "/Home/login",
+            url: "/Home/login",
             dataType: "json",
             type: "POST",
-            data: { username: username, password: password },
+            data: { username: username, password: password, remember: remember },
             success: function (result) {
 
                 if (result.ok == "success") {
                     window.location = window.location.pathname + "Home/main ";
                 } else {
-                    alert("O usuário ou senha está incorreto.");
+                    if (result.ok == "blocked") {
+                        alert("The user has blocked now")
+                    } else {
+                        alert("O usuário ou senha está incorreto.");
+                    }
                 }
             }
         });
+
     }
+    $(document).ready(function () {
+        $("#username").keyup(function (event) {
+            if (event.keyCode == 13)
+                $("#password").focus();
+        });
+        $(".forget-form1").css("display", "none");
+
+        $("#password").keyup(function (event) {
+            if (event.keyCode == 13)
+                login();
+        });
+        $("#forget-password").click(function (event) {
+            $(".login-form1").css("display", "none");
+            $(".forget-form1").css("display", "block");
+
+        });
+
+
+        $("#emailAddress").keyup(function (event) {
+            if (event.keyCode == 13)
+                sendMail();
+        });
+
+
+    });
+
+    function back() {
+
+        $(".login-form1").css("display", "block");
+        $(".forget-form1").css("display", "none");
+
+    }
+    function sendMail() {
+        var emailAddress = $("#emailAddress").val();
+
+        $.ajax({
+            url: "/Home/sendmail",
+            dataType: "json",
+            type: "POST",
+            data: { emailAddress: emailAddress },
+            success: function (result) {
+
+                if (result.ok == "success") {
+                    alert("You have recieved email");
+                } else {
+                    if (result.ok == "mailfailed") {
+                        alert("The message has not been sent successfully ");
+                    } else {
+                        
+                            alert("This is not valid user emailaddress");
+                       
+                    }
+
+                }
+            }
+        });
+
+    }
+    
+   
 </script>

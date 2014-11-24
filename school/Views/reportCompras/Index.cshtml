@@ -50,7 +50,7 @@ td {
         x++;
         $(input).parent().append
         (
-            '<label for="memo' + x + '"><a href="javascript:addMemo(' + x + ');" title="Adicionar outro memo."><i class="icon-plus-sign"></i></a><input type="input" name="memo" id="memo' + x + '" value="" class="input-small"><input type="input" name="descricao_produto[]" id="descricao_produto' + x + '" value="" class="input-xxlarge" readonly="readonly"></label>'
+            '<label for="memo' + x + '"><a href="javascript:addMemo(' + x + ');" title="Adicionar outro memo."><i class="icon-plus-sign"></i></a><input type="input" name="memo" id="memo' + x + '" onblur="consultaMemo(this.value,'+ x +')" value="" class="input-small"><input type="input" name="descricao_produto[]" id="descricao_produto' + x + '" value="" class="input-xxlarge" readonly="readonly"></label>'
         );
     }
 </script>
@@ -158,7 +158,9 @@ td {
                                                   </td>
                                                   <td width="942" nowrap="nowrap">
                                                                 <a href="javascript:addMemo(0);" title="Adicionar outro produto."><i class="icon-plus-sign"></i></a>
-                                                                <input type="input" name="memo" id="memo0" value="" class="input-small" onblur="consultaMemo(this.value,0)">
+                                                                <input type="input" name="memo" id="memo0" value="" class="input-small" onblur="consultaMemo(this.value,0)"
+                                                                 style="height: 26px;margin-left: -3px;margin-right: 3px;"   
+                                                                >
                                                                 <input type="input" name="descricao_produto[]" id="descricao_produto0" value="" class="input-xxlarge" readonly="readonly">
                                                   </td>
                                                   </tr>

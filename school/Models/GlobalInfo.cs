@@ -51,5 +51,7 @@ namespace school.Models
         public DbSet<acessorios> acessorios { get; set; }
 
         public DbSet<ope_itens_producao_situacoes> ope_itens_producao_situacoes { get; set; }
+
+        public DbSet<usuarios> usuarios { get; set; }
     }
 }

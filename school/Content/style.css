@@ -95,3 +95,8 @@ img.mainImg {
 {
     width:300px;
     }
+.input-small {
+    width: 120px !important;
+    margin-top: 5px;
+    margin-right: 6px;
+}

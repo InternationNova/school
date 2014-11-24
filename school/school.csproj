@@ -132,6 +132,7 @@
     <Compile Include="Controllers\sub_produtosController.cs" />
     <Compile Include="Controllers\tipoDocumentosController.cs" />
     <Compile Include="Controllers\transportadorasController.cs" />
+    <Compile Include="Controllers\usuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -161,6 +162,7 @@
     <Compile Include="Models\sub_produtos_materia_primas.cs" />
     <Compile Include="Models\tipo_documentos.cs" />
     <Compile Include="Models\transportadoras.cs" />
+    <Compile Include="Models\usuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
